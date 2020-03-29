@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <stdio.h>
+#include <cassert>
 
 #define WORD_LENGTH 4
 
@@ -10,12 +11,15 @@ private:
     uint8_t bytes[WORD_LENGTH];
 public:
     Word(){}
-    
+
     uint8_t get_byte(int index){
+        assert(index >=0 && index < WORD_LENGTH);
         return bytes[index];
+
     }
 
     void set_byte(int index, uint8_t value){
+        assert(index >=0 && index < WORD_LENGTH);
         bytes[index] = value;
     }
 
