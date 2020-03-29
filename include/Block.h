@@ -47,10 +47,7 @@ public:
         return false;
     }
 
-    ~Block()
-    {
-        std::fill(words, BLOCK_LENGTH, 0);
-    }
+    ~Block(){}
 };
 
 #endif
