@@ -15,10 +15,7 @@ private:
 public:
     Block()
     {
-        for (unsigned int i = 0; i < BLOCK_LENGTH; i++)
-        {
-            words[i] = Word w(new Word());
-        }
+        //words[i].set_int(0);
     }
 
     Word get_word(unsigned int position)
@@ -30,11 +27,21 @@ public:
         throw "Bad block position";
     }
 
-    bool set_wordset_word(unsigned int position, Word word)
+    bool set_word(unsigned int position, Word word)
     {
         if ((position >= 0) && (position < BLOCK_LENGTH))
         {
             words[position] = word;
+            return true;
+        }
+        return false;
+    }
+
+    bool set_int(unsigned int position, unsigned int value)
+    {
+        if ((position >= 0) && (position < BLOCK_LENGTH))
+        {
+            words[position].set_int(value);
             return true;
         }
         return false;
