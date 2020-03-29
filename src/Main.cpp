@@ -1,4 +1,5 @@
 #include <iostream>
+#include "VM.h"
 
 using namespace std;
 
