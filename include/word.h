@@ -25,10 +25,10 @@ public:
 
     int get_int()
     {
-        return (int)bytes[0] << 24 |
-                    bytes[1] << 16 |
-                    bytes[2] << 8  |
-                    bytes[3];
+        return  (int)bytes[0] << 24 |
+                (int)bytes[1] << 16 |
+                (int)bytes[2] << 8  |
+                (int)bytes[3];
     }
 
     void set_int(int value){
