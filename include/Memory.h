@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include "VM.h"
+#include "VirtualMachine.h"
 
 class Memory
 {
@@ -13,8 +13,8 @@ private:
 
 public:
     Memory();
-    ~Memory();
     void print();
+    ~Memory();
 };
 
 #endif

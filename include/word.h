@@ -10,23 +10,29 @@ struct Word{
 private:
     uint8_t bytes[WORD_LENGTH];
 public:
-    Word(){}
+    Word()
+    {
+
+    }
 
     uint8_t& operator[](int i)
     {
         return get_byte(i);
     }
 
-    void operator=(const int &i){
+    void operator=(const int &i)
+    {
         set_int(i);
     }
 
-    uint8_t& get_byte(int index){
+    uint8_t& get_byte(int index)
+    {
         assert(index >=0 && index < WORD_LENGTH);
         return bytes[index];
     }
 
-    void set_byte(int index, uint8_t value){
+    void set_byte(int index, uint8_t value)
+    {
         assert(index >=0 && index < WORD_LENGTH);
         bytes[index] = value;
     }
@@ -39,14 +45,16 @@ public:
                 (int)bytes[3];
     }
 
-    void set_int(int value){
+    void set_int(int value)
+    {
         bytes[0] = (value >> 24) & 0xFF;
         bytes[1] = (value >> 16) & 0xFF;
         bytes[2] = (value >> 8) & 0xFF;
         bytes[3] = value & 0xFF;
     }
 
-    void print_bytes(){
+    void print_bytes()
+    {
         printf("Bytes: %X %X %X %X\n", bytes[0], bytes[1], bytes[2], bytes[3]);
     }
 };

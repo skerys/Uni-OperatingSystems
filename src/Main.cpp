@@ -1,5 +1,6 @@
 #include <iostream>
-#include "VM.h"
+
+#include "VirtualMachine.h"
 #include "Block.h"
 
 using namespace std;
