@@ -12,10 +12,18 @@ private:
 public:
     Word(){}
 
-    uint8_t get_byte(int index){
+    uint8_t& operator[](int i)
+    {
+        return get_byte(i);
+    }
+
+    void operator=(const int &i){
+        set_int(i);
+    }
+
+    uint8_t& get_byte(int index){
         assert(index >=0 && index < WORD_LENGTH);
         return bytes[index];
-
     }
 
     void set_byte(int index, uint8_t value){
