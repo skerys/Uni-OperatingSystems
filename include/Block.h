@@ -18,7 +18,11 @@ public:
         //words[i].set_int(0);
     }
 
-    Word get_word(unsigned int position)
+    Word& operator[](int i){
+        return get_word(i);
+    }
+
+    Word& get_word(unsigned int position)
     {
         if ((position >= 0) && (position < BLOCK_LENGTH))
         {
@@ -47,10 +51,7 @@ public:
         return false;
     }
 
-    ~Block()
-    {
-        std::fill(words, BLOCK_LENGTH, 0);
-    }
+    ~Block(){}
 };
 
 #endif
