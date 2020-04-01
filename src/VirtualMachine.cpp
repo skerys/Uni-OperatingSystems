@@ -13,11 +13,14 @@ void VirtualMachine::execute()
 void VirtualMachine::execute_command()
 {
     
+void VirtualMachine::loadMemory()
+{
+
 }
 
 void VirtualMachine::run()
 {
-    
+
 }
 
 VirtualMachine::~VirtualMachine()

@@ -10,19 +10,14 @@ class Register
 private:
     Word word;
 public:
-    Register(Word word)
-    {
-        this->word = word;
-    }
-
-    bool Register::set_value(unsigned int value)
+    void set_value(unsigned int value)
     {
         this->word.set_int(value);
     }
 
-    int Register::get_value()
+    int get_value()
     {
-        this->word.get_int();
+        return this->word.get_int();
     }
 
     ~Register()

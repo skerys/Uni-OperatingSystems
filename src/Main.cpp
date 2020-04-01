@@ -17,8 +17,7 @@ int main()
     block[9][2] = 255;
     block[9].print_bytes();
 
-    Memory mem;
-    mem.print();
+    virtualMachine.run();
     
     return 0;
 }
