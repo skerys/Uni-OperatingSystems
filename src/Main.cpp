@@ -15,5 +15,9 @@ int main()
     block[9].print_bytes();
     block[9][2] = 255;
     block[9].print_bytes();
+
+    Memory mem;
+    mem.print();
+    
     return 0;
 }
