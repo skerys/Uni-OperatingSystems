@@ -1,9 +1,9 @@
 #include "VirtualMachine.h"
 
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
-    {
-        return (uint16_t)byteA * 0xFF + byteB;
-    }
+{
+    return (uint16_t)byteA * 0xFF + byteB;
+}
 
 VirtualMachine::VirtualMachine()
 {
@@ -220,35 +220,51 @@ void VirtualMachine::jumpToAddress(int memoryAddress, JumpType jumpType)
 
 //Read word from input device: INxy, FRxy
 void VirtualMachine::readWord(int memoryAddress, bool fromFile)
-{}
+{
+
+}
 
 //Read block form input device: BINx, BFRx
 void VirtualMachine::readBlock(int blockNumber, bool fromFile)
-{}
+{
+
+}
 
 //Write word to output device: OTxy, FWxy
 void VirtualMachine::writeWord(int wordAddress, bool toFile)
-{}
+{
+
+}
 
 //Write block to output device: BOTx, BFWx
 void VirtualMachine::writeBlock(int blockNumber, bool toFile)
-{}
+{
+
+}
 
 //Open/create file: FOxy
 void VirtualMachine::openFile(int memoryAddressOfPath)
-{}
+{
+
+}
 
 //Close file: FCLS
 void VirtualMachine::closeFile()
-{}
+{
+    
+}
 
 //delete file: FDEL
 void VirtualMachine::deleteFile()
-{}
+{
+
+}
 
 //stop program: HALT
 void VirtualMachine::stopProgram()
-{}
+{
+    running = false;
+}
 
 VirtualMachine::~VirtualMachine()
 {
