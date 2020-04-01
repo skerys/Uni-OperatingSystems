@@ -10,6 +10,18 @@ class Register
 private:
     Word word;
 public:
+    void operator=(const int &i){
+        word.set_int(i);
+    }
+
+    void operator++(){
+        word.set_int(word.get_int() + 1);
+    }
+
+    operator int(){
+        return word.get_int();
+    }
+
     void set_value(unsigned int value)
     {
         this->word.set_int(value);
