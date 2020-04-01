@@ -4,9 +4,12 @@
 #include <memory>
 #include <vector>
 
+#include "Memory.h"
+
 class VirtualMachine
 {
 private:
+    Memory memory;
     bool running;
     void execute();
 public:
