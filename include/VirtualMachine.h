@@ -29,6 +29,8 @@ private:
     bool running;
     void execute();
     void execute_command();
+    Word read_opcode();
+
 public:
     VirtualMachine();
     void loadMemory(Memory _memory);
@@ -88,9 +90,9 @@ enum CommandCode
     FOxy,
     FCLS,
     FDEL,
-    FWxy,
-    BFWx,
-    FRxy,
-    BFRx,
+    WFxy,
+    BWFx,
+    RFxy,
+    BRFx,
     HALT
 };
