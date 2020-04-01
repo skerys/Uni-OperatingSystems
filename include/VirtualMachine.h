@@ -1,5 +1,4 @@
-#ifndef VM_H
-#define VM_H
+#pragma once
 
 #include <iostream>
 #include <memory>
@@ -45,6 +44,3 @@ enum CommandCode
     FRBx,
     HALT
 };
-
-
-#endif

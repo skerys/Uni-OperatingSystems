@@ -1,5 +1,4 @@
-#ifndef MEMORY_H
-#define MEMORY_H
+#pragma once
 
 #include <iostream>
 #include <memory>
@@ -19,5 +18,3 @@ public:
     void print();
     ~Memory();
 };
-
-#endif

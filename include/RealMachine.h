@@ -1,5 +1,4 @@
-#ifndef REALMACHINE_H
-#define REALMACHINE_H
+#pragma once
 
 #include <iostream>
 #include <memory>
@@ -15,5 +14,3 @@ public:
     RealMachine();
     ~RealMachine();
 };
-
-#endif
