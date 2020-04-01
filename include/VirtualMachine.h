@@ -17,7 +17,7 @@ public:
     ~VM();
 };
 
-enum CommandCode
+/*enum CommandCode
 {
     WAxy,
     WBxy,
@@ -44,6 +44,6 @@ enum CommandCode
     FRxy,
     FRBx,
     HALT
-};
+};*/
 
 #endif
