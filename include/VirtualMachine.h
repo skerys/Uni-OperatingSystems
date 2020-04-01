@@ -31,43 +31,43 @@ private:
     void execute_command();
     Word read_opcode();
 
-    //Write from memory to register: WAxy WBxy
+    // Write from memory to register: WAxy WBxy
     void writeToMemory(RegisterType registerType, int memoryAddress);
 
-    //Load from memory to register: LAxy LBxy
+    // Load from memory to register: LAxy LBxy
     void loadFromMemory(RegisterType registerType, int memoryAddress);
 
-    //Do arithmethic commands: ADDX, SUBX, DIVX, MULX
+    // Do arithmethic commands: ADDX, SUBX, DIVX, MULX
     void arithmethicCommand(ArithmeticCommand type);
 
-    //Do compare: CMPX
+    // Do compare: CMPX
     void compareRegisters();
 
-    //Jumps: JPxy, JExy, JNxy, JGxy
+    // Jumps: JPxy, JExy, JNxy, JGxy
     void jumpToAddress(int memoryAddress, JumpType jumpType);
 
-    //Read word from input device: INxy, FRxy
+    // Read word from input device: INxy, FRxy
     void readWord(int memoryAddress, bool fromFile);
 
-    //Read block form input device: BINx, BFRx
+    // Read block form input device: BINx, BFRx
     void readBlock(int blockNumber, bool fromFile);
 
-    //Write word to output device: OTxy, FWxy
+    // Write word to output device: OTxy, FWxy
     void writeWord(int wordAddress, bool toFile);
 
-    //Write block to output device: BOTx, BFWx
+    // Write block to output device: BOTx, BFWx
     void writeBlock(int blockNumber, bool toFile);
 
-    //Open/create file: FOxy
+    // Open/create file: FOxy
     void openFile(int memoryAddressOfPath);
 
-    //Close file: FCLS
+    // Close file: FCLS
     void closeFile();
 
-    //delete file: FDEL
+    // Delete file: FDEL
     void deleteFile();
 
-    //stop program: HALT
+    // Stop program: HALT
     void stopProgram();
 public:
     VirtualMachine(Memory& _memory) : memory(_memory){
@@ -77,33 +77,4 @@ public:
     void loadMemory(Memory& _memory);
     void run();    
     ~VirtualMachine();
-};
-
-enum CommandCode
-{
-    WAxy,
-    WBxy,
-    LAxy,
-    LBxy,
-    ADDX,
-    SUBX,
-    MULX,
-    DIVX,
-    CMPX,
-    JPxy,
-    JExy,
-    JNxy,
-    JGxy,
-    INxy,
-    BINx,
-    OTxy,
-    BOTx,
-    FOxy,
-    FCLS,
-    FDEL,
-    WFxy,
-    BWFx,
-    RFxy,
-    BRFx,
-    HALT
 };
