@@ -14,8 +14,9 @@ public:
         word.set_int(i);
     }
 
-    void operator++(){
+    Register& operator++(){
         word.set_int(word.get_int() + 1);
+        return *this;
     }
 
     operator int(){
