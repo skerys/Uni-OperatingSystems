@@ -19,6 +19,8 @@ int main()
     block[9].print_bytes();
 
     memory.print();
+    memory[0][0][0] = 'H';
+    memory[0][0][1] = 'A';
 
     virtualMachine.loadMemory(memory);
     virtualMachine.run();
