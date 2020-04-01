@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Block.h"
-#include "VirtualMachine.h"
 
 #define MEMORY_BLOCK_COUNT 16
 
@@ -14,6 +13,8 @@ class Memory
 private:
     Block blocks[MEMORY_BLOCK_COUNT];
 public:
+
+
     Memory();
     void print();
     ~Memory();

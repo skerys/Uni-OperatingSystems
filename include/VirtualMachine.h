@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Memory.h"
+#include "Register.h"
 
 class VirtualMachine
 {
@@ -15,10 +16,12 @@ private:
     Flag sf;
     bool running;
     void execute();
+    void execute_command();
 public:
     VirtualMachine();
     void loadMemory();
     void run();
+
     ~VirtualMachine();
 };
 

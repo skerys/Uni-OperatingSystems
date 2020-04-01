@@ -10,6 +10,11 @@ void VirtualMachine::execute()
     std::cout << "Hello, guys";
 }
 
+void VirtualMachine::execute_command()
+{
+    
+}
+
 void VirtualMachine::run()
 {
     while(this->running)
