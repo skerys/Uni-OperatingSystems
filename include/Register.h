@@ -4,6 +4,8 @@
 #include <cstdint>
 #include "Word.h"
 
+#include "Word.h"
+
 class Register
 {
 private:
@@ -24,7 +26,10 @@ public:
         this->word.get_int();
     }
 
-    ~Register();
+    ~Register()
+    {
+
+    }
 };
 
 class Flag{
@@ -39,6 +44,11 @@ public:
     bool check_status()
     {
         return status;
+    }
+
+    ~Flag()
+    {
+        
     }
 }
 

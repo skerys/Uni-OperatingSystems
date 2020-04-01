@@ -1,5 +1,9 @@
 #include <iostream>
-#include "../include/Memory.h"
+
+#include "VirtualMachine.h"
+#include "Block.h"
+
+using namespace std;
 
 int main()
 {

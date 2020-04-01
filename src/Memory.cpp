@@ -3,7 +3,7 @@
 
 Memory::Memory()
 {
-
+    //pakeitimas
 }
 
 void Memory::print()

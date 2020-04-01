@@ -8,6 +8,7 @@
 
 #define MEMORY_BLOCK_COUNT 16
 
+#include "VirtualMachine.h"
 
 class Memory
 {
@@ -15,8 +16,8 @@ private:
     Block blocks[MEMORY_BLOCK_COUNT];
 public:
     Memory();
-    ~Memory();
     void print();
+    ~Memory();
 };
 
 #endif

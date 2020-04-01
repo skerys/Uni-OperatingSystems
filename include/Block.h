@@ -54,7 +54,10 @@ public:
         return false;
     }
 
-    ~Block(){}
+    ~Block()
+    {
+        
+    }
 };
 
 #endif
