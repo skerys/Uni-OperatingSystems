@@ -110,7 +110,8 @@ void VirtualMachine::execute_command()
             break;
         }
     
-    if(!jump_happened){
+    if(!jump_happened)
+    {
         ++ic;
     }
 }
@@ -225,25 +226,54 @@ void VirtualMachine::jumpToAddress(int memoryAddress, JumpType jumpType)
 // Read word from input device: INxy, FRxy
 void VirtualMachine::readWord(int memoryAddress, bool fromFile)
 {
+    if (fromFile)
+    {
 
+    }
+    else
+    {
+
+    }
+    
 }
 
 // Read block form input device: BINx, BFRx
 void VirtualMachine::readBlock(int blockNumber, bool fromFile)
 {
+    if (fromFile)
+    {
 
+    }
+    else
+    {
+        
+    }
 }
 
 // Write word to output device: OTxy, FWxy
 void VirtualMachine::writeWord(int wordAddress, bool toFile)
 {
+    if (toFile)
+    {
 
+    }
+    else
+    {
+        
+    }
 }
 
 // Write block to output device: BOTx, BFWx
 void VirtualMachine::writeBlock(int blockNumber, bool toFile)
 {
+    if (toFile)
+    {
 
+    }
+    else
+    {
+        
+    }
 }
 
 // Open/create file: FOxy
