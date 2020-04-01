@@ -45,10 +45,6 @@ private:
 
     //Jumps: JPxy, JExy, JNxy, JGxy
     void jumpToAddress(int memoryAddress, JumpType jumpType);
-public:
-    VirtualMachine();
-    void loadMemory(Memory _memory);
-    void run();
 
     //Read word from input device: INxy, FRxy
     void readWord(int memoryAddress, bool fromFile);
@@ -73,7 +69,10 @@ public:
 
     //stop program: HALT
     void stopProgram();
-    
+public:
+    VirtualMachine();
+    void loadMemory(Memory _memory);
+    void run();    
     ~VirtualMachine();
 };
 
