@@ -10,11 +10,6 @@ VirtualMachine::VirtualMachine()
     running = true;
 }
 
-void VirtualMachine::execute()
-{
-    std::cout << "Hello, guys";
-}
-
 Word VirtualMachine::read_opcode()
 {
     Word opcode = memory[ic.get_value()/16][ic.get_value()%16];
@@ -251,7 +246,7 @@ void VirtualMachine::openFile(int memoryAddressOfPath)
 //Close file: FCLS
 void VirtualMachine::closeFile()
 {
-    
+
 }
 
 //delete file: FDEL

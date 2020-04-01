@@ -27,7 +27,6 @@ private:
     Register ic;
     Flag sf;
     bool running;
-    void execute();
     void execute_command();
     Word read_opcode();
 
