@@ -6,6 +6,10 @@ Memory::Memory()
     //pakeitimas
 }
 
+Block& Memory::operator[](int i){
+    return blocks[i];
+}
+
 void Memory::print()
 {
     for(int i = 0; i < MEMORY_BLOCK_COUNT; ++i)

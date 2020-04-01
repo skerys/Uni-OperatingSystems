@@ -13,7 +13,7 @@ class Memory
 private:
     Block blocks[MEMORY_BLOCK_COUNT];
 public:
-
+    Block& operator[](int i);
 
     Memory();
     void print();
