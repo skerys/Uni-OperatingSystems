@@ -1,8 +1,5 @@
 #include <iostream>
-#include "VM.h"
-#include "Block.h"
-
-using namespace std;
+#include "../include/Memory.h"
 
 int main()
 {
@@ -11,5 +8,9 @@ int main()
     block[9].print_bytes();
     block[9][2] = 255;
     block[9].print_bytes();
+
+    Memory mem;
+    mem.print();
+    
     return 0;
 }

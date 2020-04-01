@@ -4,16 +4,25 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <cstdint>
+#include "Memory.h"
 
 class VM
 {
 private:
     bool running;
     void execute();
+
+    uint8_t ptr; //registras nurodantis puslapiavimo lenteles adresa realioj atminty
+    Memory tempMemory;
+
 public:
     VM();
     ~VM();
     void loadMemory();
+
+
+
     void run();
 };
 
