@@ -30,7 +30,7 @@ public:
         this->status = false;
     }
 
-    bool check_status()
+    bool get_status()
     {
         return status;
     }

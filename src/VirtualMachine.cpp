@@ -37,6 +37,7 @@ void VirtualMachine::writeToMemory(RegisterType registerType, int memoryAddress)
             memory[memoryAddress/16][memoryAddress%16] = rb.get_value();
             break;
         default:
+            printf("No such register");
             break;
     }
 }
@@ -53,10 +54,12 @@ void VirtualMachine::loadFromMemory(RegisterType registerType, int memoryAddress
             rb.set_value(memory[memoryAddress/16][memoryAddress%16].get_int());
             break;
         default:
+            printf("No such register");
             break;
     }
 }
 
+//Do arithmethic commands: ADDX, SUBX, DIVX, MULX
 void VirtualMachine::arithmethicCommand(ArithmeticCommand arithmeticCommand)
 {
     switch(arithmeticCommand)
@@ -74,10 +77,12 @@ void VirtualMachine::arithmethicCommand(ArithmeticCommand arithmeticCommand)
             ra.set_value(ra.get_value() / rb.get_value());
             break;
         default:
+            printf("No such command");
             break;
     }
 }
 
+//Do compare: CMPX
 void VirtualMachine::compareRegisters()
 {
     if (ra.get_value() == rb.get_value())
@@ -85,7 +90,33 @@ void VirtualMachine::compareRegisters()
     else if (ra.get_value() > rb.get_value())
         sf.set_status(1);
     else
-        sf.set_status(2);    
+        sf.set_status(2);     
+}
+
+//Jumps: JPxy, JExy, JNxy, JGxy
+void VirtualMachine::jumpToAddress(int memoryAddress, JumpType jumpType)
+{
+    switch(jumpType)
+    {
+        case JumpType::ALWAYS:
+            ic.set_value(memoryAddress);
+            break;
+        case JumpType::IF_EQUAL:
+            if (sf.get_status() == 0)
+                ic.set_value(memoryAddress);
+            break;
+        case JumpType::IF_NOT_EQUAL:
+            if (sf.get_status() != 0)
+                ic.set_value(memoryAddress);
+            break;
+        case JumpType::IF_GREATER:
+            if (sf.get_status() == 1)
+                ic.set_value(memoryAddress);
+            break;
+        default:
+            printf("No such jumptype");
+            break;
+    }
 }
 
 VirtualMachine::~VirtualMachine()

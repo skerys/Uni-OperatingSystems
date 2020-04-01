@@ -41,13 +41,13 @@ private:
 
     //Do compare: CMPX
     void compareRegisters();
+
+    //Jumps: JPxy, JExy, JNxy, JGxy
+    void jumpToAddress(int memoryAddress, JumpType jumpType);
 public:
     VirtualMachine();
     void loadMemory(Memory _memory);
     void run();
-
-    //Jumps: JPxy, JExy, JNxy, JGxy
-    void jumpToAddress(int memoryAddress, JumpType jumpType);
 
     //Read word from input device: INxy, FRxy
     void readWord(int memoryAddress, bool fromFile);
