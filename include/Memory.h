@@ -10,7 +10,7 @@
 class Memory
 {
 private:
-
+    
 public:
     Memory();
     void print();
