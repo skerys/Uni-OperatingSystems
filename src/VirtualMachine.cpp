@@ -15,9 +15,9 @@ void VirtualMachine::execute_command()
     
 }
     
-void VirtualMachine::loadMemory()
+void VirtualMachine::loadMemory(Memory _memory)
 {
-
+    memory = _memory;
 }
 
 void VirtualMachine::run()

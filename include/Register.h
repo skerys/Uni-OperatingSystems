@@ -19,11 +19,6 @@ public:
     {
         return this->word.get_int();
     }
-
-    ~Register()
-    {
-
-    }
 };
 
 class Flag{

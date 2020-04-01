@@ -11,11 +11,6 @@ struct Word{
 private:
     uint8_t bytes[WORD_LENGTH];
 public:
-    Word()
-    {
-        set_int(0);
-    }
-
     uint8_t& operator[](int i)
     {
         return get_byte(i);

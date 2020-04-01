@@ -19,7 +19,7 @@ private:
     void execute_command();
 public:
     VirtualMachine();
-    void loadMemory();
+    void loadMemory(Memory _memory);
     void run();
 
     ~VirtualMachine();
