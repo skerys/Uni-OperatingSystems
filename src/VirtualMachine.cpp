@@ -99,7 +99,7 @@ void VirtualMachine::execute_command()
             stopProgram();
             break;
         default:
-            printf("Uoj pajebaaaat\n");
+            printf("Exception which needs to be implemented; Unknown opcode\n");
             exit(0);
             break;
         }
@@ -119,7 +119,7 @@ void VirtualMachine::run()
     }
 }
 
-//Write from memory to register: WAxy WBxy
+// Write from memory to register: WAxy WBxy
 void VirtualMachine::writeToMemory(RegisterType registerType, int memoryAddress)
 {
     switch(registerType)
@@ -131,12 +131,12 @@ void VirtualMachine::writeToMemory(RegisterType registerType, int memoryAddress)
             memory[memoryAddress/16][memoryAddress%16] = rb.get_value();
             break;
         default:
-            printf("No such register");
+            printf("Exception which needs to be implemented; Unknown register\n");
             break;
     }
 }
 
-//Load from memory to register: LAxy LBxy
+// Load from memory to register: LAxy LBxy
 void VirtualMachine::loadFromMemory(RegisterType registerType, int memoryAddress)
 {
     switch(registerType)
@@ -148,12 +148,12 @@ void VirtualMachine::loadFromMemory(RegisterType registerType, int memoryAddress
             rb.set_value(memory[memoryAddress/16][memoryAddress%16].get_int());
             break;
         default:
-            printf("No such register");
+            printf("Exception which needs to be implemented; Unknown register\n");
             break;
     }
 }
 
-//Do arithmethic commands: ADDX, SUBX, DIVX, MULX
+// Do arithmethic commands: ADDX, SUBX, DIVX, MULX
 void VirtualMachine::arithmethicCommand(ArithmeticCommand arithmeticCommand)
 {
     switch(arithmeticCommand)
@@ -171,12 +171,12 @@ void VirtualMachine::arithmethicCommand(ArithmeticCommand arithmeticCommand)
             ra.set_value(ra.get_value() / rb.get_value());
             break;
         default:
-            printf("No such command");
+            printf("Exception which needs to be implemented; Unknown command\n");
             break;
     }
 }
 
-//Do compare: CMPX
+// Do compare: CMPX
 void VirtualMachine::compareRegisters()
 {
     if (ra.get_value() == rb.get_value())
@@ -187,7 +187,7 @@ void VirtualMachine::compareRegisters()
         sf.set_status(2);     
 }
 
-//Jumps: JPxy, JExy, JNxy, JGxy
+// Jumps: JPxy, JExy, JNxy, JGxy
 void VirtualMachine::jumpToAddress(int memoryAddress, JumpType jumpType)
 {
     switch(jumpType)
@@ -208,54 +208,54 @@ void VirtualMachine::jumpToAddress(int memoryAddress, JumpType jumpType)
                 ic.set_value(memoryAddress);
             break;
         default:
-            printf("No such jumptype");
+            printf("Exception which needs to be implemented; Unknown jumptype\n");
             break;
     }
 }
 
-//Read word from input device: INxy, FRxy
+// Read word from input device: INxy, FRxy
 void VirtualMachine::readWord(int memoryAddress, bool fromFile)
 {
 
 }
 
-//Read block form input device: BINx, BFRx
+// Read block form input device: BINx, BFRx
 void VirtualMachine::readBlock(int blockNumber, bool fromFile)
 {
 
 }
 
-//Write word to output device: OTxy, FWxy
+// Write word to output device: OTxy, FWxy
 void VirtualMachine::writeWord(int wordAddress, bool toFile)
 {
 
 }
 
-//Write block to output device: BOTx, BFWx
+// Write block to output device: BOTx, BFWx
 void VirtualMachine::writeBlock(int blockNumber, bool toFile)
 {
 
 }
 
-//Open/create file: FOxy
+// Open/create file: FOxy
 void VirtualMachine::openFile(int memoryAddressOfPath)
 {
 
 }
 
-//Close file: FCLS
+// Close file: FCLS
 void VirtualMachine::closeFile()
 {
 
 }
 
-//delete file: FDEL
+// Delete file: FDEL
 void VirtualMachine::deleteFile()
 {
 
 }
 
-//stop program: HALT
+// Stop program: HALT
 void VirtualMachine::stopProgram()
 {
     running = false;
