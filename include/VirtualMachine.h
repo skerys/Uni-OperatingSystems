@@ -29,6 +29,7 @@ private:
     bool running;
     void execute();
     void execute_command();
+    Word read_opcode();
 
     //Write from memory to register: WAxy WBxy
     void writeToMemory(RegisterType registerType, int memoryAddress);
@@ -98,9 +99,9 @@ enum CommandCode
     FOxy,
     FCLS,
     FDEL,
-    FWxy,
-    BFWx,
-    FRxy,
-    BFRx,
+    WFxy,
+    BWFx,
+    RFxy,
+    BRFx,
     HALT
 };
