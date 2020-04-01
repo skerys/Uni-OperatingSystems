@@ -17,10 +17,7 @@ void VirtualMachine::execute_command()
 
 void VirtualMachine::run()
 {
-    while(this->running)
-    {
-        this->execute();
-    }
+    
 }
 
 VirtualMachine::~VirtualMachine()
