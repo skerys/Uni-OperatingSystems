@@ -2,17 +2,13 @@
 
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
 {
-    return (uint16_t)byteA * 0xFF + byteB;
-}
-
-VirtualMachine::VirtualMachine()
-{
-    running = true;
+    return (uint16_t)byteA * 16 + byteB;
 }
 
 Word VirtualMachine::read_opcode()
 {
     Word opcode = memory[ic.get_value()/16][ic.get_value()%16];
+    return opcode;
 }
 
 void VirtualMachine::execute_command()
@@ -115,13 +111,14 @@ void VirtualMachine::execute_command()
     }
 }
     
-void VirtualMachine::loadMemory(Memory _memory)
+void VirtualMachine::loadMemory(Memory& _memory)
 {
     memory = _memory;
 }
 
 void VirtualMachine::run()
 {
+    ic = 0;
     while(running)
     {
         execute_command();

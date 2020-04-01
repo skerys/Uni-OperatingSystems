@@ -12,7 +12,7 @@
 class RealMachine
 {
 private:
-    VirtualMachine virtualMachines[VIRTUAL_MACHINE_NUM];
+    //VirtualMachine virtualMachines[VIRTUAL_MACHINE_NUM];
     Register ra, rb, rc;
     Register ptr;
     Register ic;

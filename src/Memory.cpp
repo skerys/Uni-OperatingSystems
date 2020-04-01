@@ -16,7 +16,7 @@ void Memory::print()
     {
         printf("%2X: ", i);
         for(int j = 0; j < BLOCK_LENGTH; ++j){
-            printf("%4X ", blocks[i][j]);
+            printf("%4X ", blocks[i][j].get_int());
         }
         printf("\n");
     }

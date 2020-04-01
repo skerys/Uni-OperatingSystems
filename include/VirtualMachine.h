@@ -22,11 +22,12 @@ enum JumpType{
 class VirtualMachine
 {
 private:
-    Memory memory;
+    Memory& memory;
     Register ra, rb;
     Register ic;
     Flag sf;
     bool running;
+    
     void execute_command();
     Word read_opcode();
 
@@ -69,8 +70,11 @@ private:
     //stop program: HALT
     void stopProgram();
 public:
-    VirtualMachine();
-    void loadMemory(Memory _memory);
+    VirtualMachine(Memory& _memory) : memory(_memory){
+
+        running = true;
+    }
+    void loadMemory(Memory& _memory);
     void run();    
     ~VirtualMachine();
 };

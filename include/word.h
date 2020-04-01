@@ -33,6 +33,14 @@ public:
         bytes[index] = value;
     }
 
+    void set_bytes(int byte0, int byte1, int byte2, int byte3)
+    {
+        bytes[0] = byte0;
+        bytes[1] = byte1;
+        bytes[2] = byte2;
+        bytes[3] = byte3;
+    }
+
     int get_int()
     {
         return  (int)bytes[0] << 24 |
