@@ -26,9 +26,11 @@ void VirtualMachine::execute_command()
     Word opcode = read_opcode();
     uint16_t opcode_addr = combine_two_bytes(opcode[2], opcode[3]);
 
+    bool jump_happened = false;
+
     switch (combine_two_bytes(opcode[0], opcode[1]))
     {
-        case combine_two_bytes('W', 'A'): //WAxy
+        case combine_two_bytes('W', 'A'): 
             writeToMemory(RegisterType::RA, opcode_addr);
             break;
         case combine_two_bytes('W', 'B'):
@@ -57,15 +59,19 @@ void VirtualMachine::execute_command()
             break;
         case combine_two_bytes('J', 'P'):
             jumpToAddress(opcode_addr, JumpType::ALWAYS);
+            jump_happened = true;
             break;
         case combine_two_bytes('J', 'E'):
             jumpToAddress(opcode_addr, JumpType::IF_EQUAL);
+            jump_happened = true;
             break;
         case combine_two_bytes('J', 'N'):
             jumpToAddress(opcode_addr, JumpType::IF_NOT_EQUAL);
+            jump_happened = true;
             break;
         case combine_two_bytes('J', 'G'):
             jumpToAddress(opcode_addr, JumpType::IF_GREATER);
+            jump_happened = true;
             break;
         case combine_two_bytes('I', 'N'):
             readWord(opcode_addr, false);
@@ -108,7 +114,10 @@ void VirtualMachine::execute_command()
             exit(0);
             break;
         }
-    //switch opcode and increase IC by 1 in cases where there is no jump
+    
+    if(!jump_happened){
+        ++ic;
+    }
 }
     
 void VirtualMachine::loadMemory(Memory _memory)
