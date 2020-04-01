@@ -1,5 +1,4 @@
-#ifndef REGISTER_H
-#ifndef REGISTER_H
+#pragma once
 
 #include <cstdint>
 #include "Word.h"
@@ -51,5 +50,3 @@ public:
         
     }
 }
-
-#endif

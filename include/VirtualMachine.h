@@ -1,23 +1,25 @@
-#ifndef VM_H
-#define VM_H
+#pragma once
 
 #include <iostream>
 #include <memory>
 #include <vector>
 
-class VM
+#include "Memory.h"
+
+class VirtualMachine
 {
 private:
+    Memory memory;
     bool running;
     void execute();
 public:
-    VM();
+    VirtualMachine();
     void loadMemory();
     void run();
-    ~VM();
+    ~VirtualMachine();
 };
 
-/*enum CommandCode
+enum CommandCode
 {
     WAxy,
     WBxy,
@@ -44,6 +46,4 @@ public:
     FRxy,
     FRBx,
     HALT
-};*/
-
-#endif
+};

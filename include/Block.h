@@ -1,5 +1,4 @@
-#ifndef BLOCK_H
-#define BLOCK_H
+#pragma once
 
 #define BLOCK_LENGTH 16
 
@@ -59,5 +58,3 @@ public:
         
     }
 };
-
-#endif

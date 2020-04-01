@@ -1,16 +1,16 @@
 #include "VirtualMachine.h"
 
-VM::VM()
+VirtualMachine::VirtualMachine()
 {
     this->running = true;
 }
 
-void VM::execute()
+void VirtualMachine::execute()
 {
     std::cout << "Hello, guys";
 }
 
-void VM::run()
+void VirtualMachine::run()
 {
     while(this->running)
     {
@@ -18,7 +18,7 @@ void VM::run()
     }
 }
 
-VM::~VM()
+VirtualMachine::~VirtualMachine()
 {
 
 }
