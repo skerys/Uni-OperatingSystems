@@ -13,6 +13,8 @@ void VirtualMachine::execute()
 void VirtualMachine::execute_command()
 {
     
+}
+    
 void VirtualMachine::loadMemory()
 {
 
