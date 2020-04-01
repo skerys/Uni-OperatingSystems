@@ -5,16 +5,16 @@
 #include <memory>
 #include <vector>
 
-class VM
+class VirtualMachine
 {
 private:
     bool running;
     void execute();
 public:
-    VM();
+    VirtualMachine();
     void loadMemory();
     void run();
-    ~VM();
+    ~VirtualMachine();
 };
 
 enum CommandCode
@@ -45,5 +45,6 @@ enum CommandCode
     FRBx,
     HALT
 };
+
 
 #endif
