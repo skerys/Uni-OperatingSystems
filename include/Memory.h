@@ -4,10 +4,9 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include "VM.h"
 #include "Block.h"
 
-#define MEMORY_BLOCK_COUNT 70
+#define MEMORY_BLOCK_COUNT 16
 
 
 class Memory

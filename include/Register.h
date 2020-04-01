@@ -2,6 +2,7 @@
 #ifndef REGISTER_H
 
 #include <cstdint>
+#include "Word.h"
 
 class Register
 {

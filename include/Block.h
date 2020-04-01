@@ -15,7 +15,10 @@ private:
 public:
     Block()
     {
-        //words[i].set_int(0);
+        for(int i = 0; i < BLOCK_LENGTH; ++i)
+        {
+            words[i].set_int(0);
+        }
     }
 
     Word& operator[](int i){
