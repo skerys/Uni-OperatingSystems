@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Block.h"
-#include "VirtualMachine.h"
 
 #define MEMORY_BLOCK_COUNT 16
 

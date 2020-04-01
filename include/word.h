@@ -13,7 +13,7 @@ private:
 public:
     Word()
     {
-
+        set_int(0);
     }
 
     uint8_t& operator[](int i)

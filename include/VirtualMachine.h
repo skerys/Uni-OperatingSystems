@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Memory.h"
+#include "Register.h"
 
 class VirtualMachine
 {
