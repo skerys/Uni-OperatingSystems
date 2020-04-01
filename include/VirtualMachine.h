@@ -10,6 +10,9 @@ class VirtualMachine
 {
 private:
     Memory memory;
+    Register ra, rb;
+    Register ic;
+    Flag sf;
     bool running;
     void execute();
 public:
