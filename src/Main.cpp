@@ -15,8 +15,10 @@ int main()
 
     block[9]    = 8555;
     block[9].print_bytes();
-    block[9][2] = 255;
+    block[9][2] = 257;
     block[9].print_bytes();
+
+    memory.print();
 
     virtualMachine.loadMemory(memory);
     virtualMachine.run();

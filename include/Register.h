@@ -35,6 +35,11 @@ public:
         return status;
     }
 
+    void set_status(uint8_t _status)
+    {
+        status = _status;
+    }
+
     ~Flag()
     {
         
