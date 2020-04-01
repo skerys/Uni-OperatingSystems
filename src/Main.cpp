@@ -10,6 +10,7 @@ int main()
 {
     Block       block;
     RealMachine realMachine;
+    VirtualMachine virtualMachine;
 
     block[9]    = 8555;
     block[9].print_bytes();

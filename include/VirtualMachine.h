@@ -14,7 +14,6 @@ private:
     Register ic;
     Flag sf;
     bool running;
-    void execute();
 public:
     VirtualMachine();
     void loadMemory();
