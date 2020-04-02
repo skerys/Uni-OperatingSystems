@@ -24,17 +24,54 @@ public:
             std::string line;
             int lineNo;
 
+            std::getline(file, line);
+            if (line != "DATA")
+            {
+                file.close();
+                throw "Must be data";
+            }
+
+            std::getline(file, line);
+            
+            while(line[0] == '[')
+            {
+                int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
+
+                std::getline(file, line);
+
+                for (int i = 0; (line.length()-1) > 1; ++i)
+                {
+                    memory[address[0]*16+address[1]][address[2]*16+address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], (int)line[i+3]);
+                }
+
+                std::getline(file, line);
+            }
+
+            if (line != "CODE")
+            {
+                file.close();
+                throw "Must be code";
+            }
+
             while (std::getline(file, line)) 
             {
-                if (line.length() != 4)
+                 if (line[0] == '[')
                 {
-                    printf("LEL");
-                    file.close();
-                    return;
+                    int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
                 }
-                    //throw "Smth bad at line %d", lineNo;
-                std::cout << line[0];
-                memory[lineNo/16][lineNo%16].set_bytes((int)line[0], (int)line[1], (int)line[2], (int)line[3]);
+                else
+                {
+                    throw "Must be address";
+                }
+                
+
+                if (line.length() != 8)
+                {
+                    file.close();
+                    throw "Error, must be 4 bytes";
+                }
+                
+                memory[lineNo/16][lineNo%16].set_bytes((int)line[4], (int)line[5], (int)line[6], (int)line[7]);
 
                 lineNo++;
             }
