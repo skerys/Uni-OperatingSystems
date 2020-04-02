@@ -219,10 +219,10 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
 {
     if (fromFile)
     {
-        char word[4] = {0, 0, 0, 0};
+        char word[WORD_LENGTH] = {0, 0, 0, 0};
         int fd = rb.get_value();
 
-        _read( fd, word, 4);
+        _read( fd, word, WORD_LENGTH);
 
         memory[memoryAddress/16][memoryAddress%16].set_bytes(word[0], word[1], word[2], word[3]);
     }
@@ -261,7 +261,16 @@ void VirtualMachine::readBlock(int blockNumber, bool fromFile)
 {
     if (fromFile)
     {
-        
+        char word[WORD_LENGTH] = {0, 0, 0, 0};
+        int fd = rb.get_value();
+        int bytesRead = 0;
+        int wordIndex = 0;
+
+        while (((bytesRead = _read( fd, word, WORD_LENGTH)) > 0) && (wordIndex < BLOCK_LENGTH))
+        {
+            memory[blockNumber][wordIndex].set_bytes(word[0], word[1], word[2], word[3]);
+            wordIndex++;
+        }
     }
     else
     {
