@@ -21,8 +21,8 @@ public:
 
         if (file.is_open()) 
         {
+            char str[2] = {0};
             std::string line;
-            int lineNo = 0;
 
             std::getline(file, line);
             if (line != "DATA")
@@ -35,15 +35,40 @@ public:
             
             while(line[0] == '[')
             {
+                for(int i = 1; i < 5; ++i)
+                {
+                    str[0] = str[1] = 0;
+                    str[0] = line[i];
+                    line[i] = isxdigit(line[i]) ? strtol(str, NULL, 16) : line[i];
+                }
+
                 int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
 
                 std::getline(file, line);
 
-                for (int i = 0; (line.length()-1) > 1; ++i)
+                for (int i = 0; (line.length()-i*4) > 1; ++i)
                 {
-                    memory[address[0]*16+address[1]][address[2]*16+address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], (int)line[i+3]);
+                    int nullVal = line.length()-i*4;
+                    
+                    if (nullVal < 4)
+                    {
+                        switch(nullVal)
+                        {
+                            case 1:
+                                memory[address[2]][address[3]].set_bytes((int)line[i+0], 0, 0, 0);
+                                break;
+                            case 2:
+                                memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], 0, 0);
+                                break;
+                            case 3:
+                                memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], 0);
+                                break;
+                            default:
+                                break;
+                        } 
+                    }
+                    memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], (int)line[i+3]);
                 }
-
                 std::getline(file, line);
             }
 
@@ -55,7 +80,7 @@ public:
 
             while (std::getline(file, line)) 
             {
-                 if (line[0] == '[')
+                if (line[0] == '[')
                 {
                     int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
                 }
@@ -64,8 +89,9 @@ public:
                     throw "Must be address";
                 }
                 
+                int lineNo = 0;
 
-                if (line.length() != 8)
+                if (line.length() != 4)
                 {
                     file.close();
                     throw "Error, must be 4 bytes";
