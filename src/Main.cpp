@@ -29,9 +29,11 @@ int main()
     memory[0][4].set_bytes('H', 'A', 'L', 'T');*/
 
     memory[3][0].set_bytes('a', 'b', '.', 'c');
+    memory[4][0].set_bytes('b','l','e','t');
     memory[0][0].set_bytes('F', 'O', 3, 0);
-    memory[0][1].set_bytes('F','C','L','S');
-    memory[0][2].set_bytes('H', 'A', 'L', 'T');
+    memory[0][1].set_bytes('W','F',4,0);
+    memory[0][2].set_bytes('F','C','L','S');
+    memory[0][3].set_bytes('H', 'A', 'L', 'T');
 
     //memory.print();
 

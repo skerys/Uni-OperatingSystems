@@ -319,7 +319,14 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
 {
     if (toFile)
     {
-        
+        int fd = rb;
+        std::string toWrite;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            toWrite.push_back(memory[wordAddress/16][wordAddress%16][i]);
+        }
+        _write(fd, toWrite.c_str(), toWrite.length());
     }
     else
     {
