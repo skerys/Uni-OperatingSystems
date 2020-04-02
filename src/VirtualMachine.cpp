@@ -456,8 +456,19 @@ void VirtualMachine::run()
     ic = 0;
     while(running)
     {
+#if DEBUG_MODE
+        print_status();
+        std::cin.getc();
         execute_command();
+#else
+        execute_command();
+#endif
     }
+}
+
+void VirtualMachine::print_status()
+{
+    
 }
 
 VirtualMachine::~VirtualMachine()

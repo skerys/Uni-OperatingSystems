@@ -6,8 +6,7 @@
 #include <io.h>
 #include <fcntl.h>
 
-
-using namespace std;
+#define DEBUG_MODE 1
 
 int main()
 {
