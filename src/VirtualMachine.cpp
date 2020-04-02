@@ -316,7 +316,9 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
 
         for (int i = 0; i < 4; ++i)
         {
-            toWrite.push_back(memory[wordAddress/16][wordAddress%16][i]);
+            uint8_t symbol = memory[wordAddress/16][wordAddress%16][i];
+            if(symbol == 0) break;
+            toWrite.push_back(symbol);
         }
         _write(fd, toWrite.c_str(), toWrite.length());
     }
