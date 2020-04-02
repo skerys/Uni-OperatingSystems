@@ -23,6 +23,7 @@ public:
         {
             char str[2] = {0};
             std::string line;
+            std::string backupLine;
 
             std::getline(file, line);
             if (line != "DATA")
@@ -45,39 +46,53 @@ public:
                 int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
 
                 std::getline(file, line);
-                int lineLength = line.length();
 
-                for (int i = 0; i < lineLength; i+=4)
+                int lineLength = 0;
+
+                if (line[0] == '$')
                 {
-                    int nullVal = lineLength-i;
-                    
-                    if (nullVal < 4)
-                    {
-                        switch(nullVal)
-                        {
-                            case 1:
-                                memory[address[2]][address[3]].set_bytes((int)line[i+0], 0, 0, 0);
-                                break;
-                            case 2:
-                                memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], 0, 0);
-                                break;
-                            case 3:
-                                memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], 0);
-                                break;
-                            default:
-                                break;
-                        } 
-                    }
-                    else{
-                        memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], (int)line[i+3]);
-                    }
+                    backupLine = line.substr(1, line.length()-1);
+                    lineLength = backupLine.length();
 
-                    address[3]++;
-                    if(address[3] >= 16)
+                    for (int i = 0; i < lineLength; i+=4)
                     {
-                        address[3] = 0;
-                        address[2]++;
+                        int nullVal = lineLength-i;
+                        
+                        if (nullVal < 4)
+                        {
+                            switch(nullVal)
+                            {
+                                case 1:
+                                    memory[address[2]][address[3]].set_bytes((int)backupLine[i+0], 0, 0, 0);
+                                    break;
+                                case 2:
+                                    memory[address[2]][address[3]].set_bytes((int)backupLine[i+0], (int)backupLine[i+1], 0, 0);
+                                    break;
+                                case 3:
+                                    memory[address[2]][address[3]].set_bytes((int)backupLine[i+0], (int)backupLine[i+1], (int)backupLine[i+2], 0);
+                                    break;
+                                default:
+                                    break;
+                            } 
+                        }
+                        else{
+                            memory[address[2]][address[3]].set_bytes((int)backupLine[i+0], (int)backupLine[i+1], (int)backupLine[i+2], (int)backupLine[i+3]);
+                        }
+
+                        address[3]++;
+                        if(address[3] >= 16)
+                        {
+                            address[3] = 0;
+                            address[2]++;
+                        }
                     }
+                }
+                else
+                {
+                    backupLine = line.length();
+                    lineLength = backupLine.length();
+
+                    memory[address[2]][address[3]].set_int(std::stoi(backupLine));
                 }
                 std::getline(file, line);
             }
