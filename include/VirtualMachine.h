@@ -57,7 +57,7 @@ private:
     void closeFile();
 
     // Delete file: FDEL
-    void deleteFile();
+    void deleteFile(int memoryAddressOfPath);
 
     // Stop program: HALT
     void stopProgram();

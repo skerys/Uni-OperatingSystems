@@ -343,10 +343,20 @@ void VirtualMachine::closeFile()
     fclose(file);
 }
 
-// Delete file: FDEL
-void VirtualMachine::deleteFile()
+// Delete file: FDxy
+void VirtualMachine::deleteFile(int memoryAddressOfPath)
 {
+    std::string path;
+    int pathAddress = memoryAddressOfPath;
 
+    char symbol = memory[memoryAddressOfPath%16][memoryAddressOfPath/16].get_int();
+    while(symbol != 0)
+    {
+        path.push_back(symbol);
+        pathAddress++;
+    }
+
+    remove(path.c_str());
 }
 
 // Stop program: HALT
