@@ -83,7 +83,7 @@ void VirtualMachine::execute_command()
             closeFile();
             break;
         case combine_two_bytes('F', 'D'):
-            deleteFile();
+            deleteFile(opcode_addr);
             break;
         case combine_two_bytes('W', 'F'):
             writeWord(opcode_addr, true);
