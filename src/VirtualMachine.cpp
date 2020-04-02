@@ -101,7 +101,7 @@ void VirtualMachine::execute_command()
             stopProgram();
             break;
         default:
-            printf("Exception which needs to be implemented; Unknown opcode\n");
+            throw "Exception which needs to be implemented; Unknown opcode\n";
             exit(0);
             break;
         }
@@ -138,7 +138,7 @@ void VirtualMachine::writeToMemory(RegisterType registerType, int memoryAddress)
             memory[memoryAddress/16][memoryAddress%16] = rb.get_value();
             break;
         default:
-            printf("Exception which needs to be implemented; Unknown register\n");
+            throw "Exception which needs to be implemented; Unknown register\n";
             break;
     }
 }
@@ -155,7 +155,7 @@ void VirtualMachine::loadFromMemory(RegisterType registerType, int memoryAddress
             rb.set_value(memory[memoryAddress/16][memoryAddress%16].get_int());
             break;
         default:
-            printf("Exception which needs to be implemented; Unknown register\n");
+            throw "Exception which needs to be implemented; Unknown register\n";
             break;
     }
 }
@@ -178,7 +178,7 @@ void VirtualMachine::arithmethicCommand(ArithmeticCommand arithmeticCommand)
             ra.set_value(ra.get_value() / rb.get_value());
             break;
         default:
-            printf("Exception which needs to be implemented; Unknown command\n");
+            throw "Exception which needs to be implemented; Unknown command\n";
             break;
     }
 }
@@ -215,7 +215,7 @@ void VirtualMachine::jumpToAddress(int memoryAddress, JumpType jumpType)
                 ic.set_value(memoryAddress);
             break;
         default:
-            printf("Exception which needs to be implemented; Unknown jumptype\n");
+            throw "Exception which needs to be implemented; Unknown jumptype\n";
             break;
     }
 }
@@ -229,9 +229,21 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
     }
     else
     {
+        char start = std::cin.peek();
 
+        if (start == '$')
+        {
+
+        }
+        else
+        {
+            int num;
+
+            std::cin >> num;
+
+            memory[memoryAddress/16][memoryAddress%16] = num;
+        }
     }
-    
 }
 
 // Read block form input device: BINx, BFRx
@@ -239,11 +251,30 @@ void VirtualMachine::readBlock(int blockNumber, bool fromFile)
 {
     if (fromFile)
     {
-
+        
     }
     else
     {
-        
+        char start = std::cin.peek();
+
+        if (start == '$')
+        {
+            
+        }
+        else
+        {
+            int num;
+            int address = 0;
+
+            while(std::cin >> num)
+            {
+                memory[blockNumber][address] = num;
+                address++;
+
+                if(address == 15)
+                    return;
+            }
+        }
     }
 }
 
@@ -252,11 +283,14 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
 {
     if (toFile)
     {
-
+        
     }
     else
     {
-        
+        for (int i = 0; i < 4; ++i)
+        {
+            std::cout << memory[wordAddress/16][wordAddress%16].get_byte(i) << " ";
+        }
     }
 }
 
@@ -269,7 +303,17 @@ void VirtualMachine::writeBlock(int blockNumber, bool toFile)
     }
     else
     {
-        
+        int address = 0;
+
+        while(address < 16)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                std::cout << memory[blockNumber][address].get_byte(i) << " ";
+            }
+            std::cout << std::endl;
+            address++;
+        }
     }
 }
 

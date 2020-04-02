@@ -37,7 +37,8 @@ public:
     }
 };
 
-class Flag{
+class Flag
+{
 private:
     uint8_t status;
 public:
