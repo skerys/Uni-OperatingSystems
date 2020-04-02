@@ -326,7 +326,9 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
     {
         for (int i = 0; i < 4; ++i)
         {
-            std::cout << memory[wordAddress/16][wordAddress%16][i] << " ";
+            uint8_t symbol = memory[wordAddress/16][wordAddress%16][i];
+            if(symbol == 0) break;
+            std::cout << (char)symbol;
         }
     }
 }
@@ -334,21 +336,39 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
 // Write block to output device: BOTx, BFWx
 void VirtualMachine::writeBlock(int blockNumber, bool toFile)
 {
+    int address = 0;
+    uint8_t symbol = 0;
+
     if (toFile)
     {
+        int fd = rb;
+        std::string toWrite;
 
+        while(address < 16)
+        {
+            toWrite = "";
+            for (int i = 0; i < 4; ++i)
+            {
+                symbol = memory[blockNumber][address][i];
+                if(symbol == 0) break;
+                toWrite.push_back(symbol);
+            }
+            _write(fd, toWrite.c_str(), toWrite.length());
+            if(symbol == 0) break;
+            address++;
+        }
     }
     else
     {
-        int address = 0;
-
         while(address < 16)
         {
             for (int i = 0; i < 4; ++i)
             {
-                std::cout << memory[blockNumber][address].get_byte(i) << " ";
+                symbol = memory[blockNumber][address][i];
+                if(symbol == 0) break;
+                std::cout << (char)symbol;
             }
-            std::cout << std::endl;
+            if(symbol == 0) break;
             address++;
         }
     }

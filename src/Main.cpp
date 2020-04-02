@@ -30,17 +30,16 @@ int main()
 
     memory[3][0].set_bytes('a', 'b', '.', 'c');
     memory[4][0].set_bytes('d', 'e', '.', 'f');
+
+    memory[5][0].set_bytes('l','a','b','a');
+    memory[5][1].set_bytes(' ','d','i','e');
+    memory[5][2].set_bytes('n','a',' ','p');
+    memory[5][3].set_bytes('o','n','a','i');
+
     memory[0][0].set_bytes('F', 'O', 3, 0);
-    memory[0][1].set_bytes('R','F', 5, 0);
-    memory[0][2].set_bytes('R','F', 5, 1);
-    memory[0][3].set_bytes('R','F', 5, 2);
-    memory[0][4].set_bytes('F','C','L','S');
-    memory[0][5].set_bytes('F', 'O', 4, 0);
-    memory[0][6].set_bytes('W', 'F', 5, 0);
-    memory[0][7].set_bytes('W', 'F', 5, 1);
-    memory[0][8].set_bytes('W', 'F', 5, 2);
-    memory[0][9].set_bytes('F','C','L','S');
-    memory[0][10].set_bytes('H', 'A', 'L', 'T');
+    memory[0][1].set_bytes('B','W', 'F', 5);
+    memory[0][2].set_bytes('F','C','L','S');
+    memory[0][3].set_bytes('H', 'A', 'L', 'T');
 
     //memory.print();
 
