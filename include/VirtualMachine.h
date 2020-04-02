@@ -20,9 +20,9 @@ private:
     Flag sf;                    // Pozymio registras
     bool running;
     
-    void execute_command();
     Word read_opcode();
-
+    void execute_command();
+    
     // Write from memory to register: WAxy WBxy
     void writeToMemory(RegisterType registerType, int memoryAddress);
 

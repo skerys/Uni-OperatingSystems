@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "VirtualMachine.h"
 #include <io.h>
 #include <fcntl.h>
@@ -108,23 +110,9 @@ void VirtualMachine::execute_command()
             break;
         }
     
-    if(!jump_happened)
+    if (!jump_happened)
     {
         ++ic;
-    }
-}
-    
-void VirtualMachine::loadMemory(Memory& _memory)
-{
-    memory = _memory;
-}
-
-void VirtualMachine::run()
-{
-    ic = 0;
-    while(running)
-    {
-        execute_command();
     }
 }
 
@@ -227,7 +215,24 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
 {
     if (fromFile)
     {
+        /*
+        ifstream inFile;
+        const int numofQ = 20;
+        char CorrectAnswers[numofQ];
 
+        inFile.open("CorrectAnswers.txt");
+        
+        for (int i = 0; i < numofQ; x++)
+        {
+            for (char write2line; inFile.get(write2line);)
+            {
+                CorrectAnswers[x] = write2line;
+                break;
+            }
+
+            cout << CorrectAnswers[x];
+        }
+        */
     }
     else
     {
@@ -378,8 +383,8 @@ void VirtualMachine::openFile(int memoryAddressOfPath)
 // Close file: FCLS
 void VirtualMachine::closeFile()
 {
-    FILE* file = fdopen(rb, "rw");
-    fclose(file);
+    //FILE* file = fdopen(rb, "rw");
+    //fclose(file);
 }
 
 // Delete file: FDxy
@@ -410,6 +415,20 @@ void VirtualMachine::deleteFile(int memoryAddressOfPath)
 void VirtualMachine::stopProgram()
 {
     running = false;
+}
+
+void VirtualMachine::loadMemory(Memory& _memory)
+{
+    memory = _memory;
+}
+
+void VirtualMachine::run()
+{
+    ic = 0;
+    while(running)
+    {
+        execute_command();
+    }
 }
 
 VirtualMachine::~VirtualMachine()
