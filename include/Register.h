@@ -26,6 +26,11 @@ public:
         return word.get_int();
     }
 
+    Register()
+    {
+        word = 0;
+    }
+
     void set_value(unsigned int value)
     {
         this->word.set_int(value);
@@ -44,10 +49,10 @@ private:
 public:
     Flag()
     {
-        this->status = false;
+        this->status = 0;
     }
 
-    bool get_status()
+    uint8_t get_status()
     {
         return status;
     }

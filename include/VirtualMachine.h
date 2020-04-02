@@ -24,7 +24,7 @@ private:
     
     Word read_opcode();
     void execute_command();
-    void print_status();
+    void do_debug();
     
     // Write from memory to register: WAxy WBxy
     void writeToMemory(RegisterType registerType, int memoryAddress);

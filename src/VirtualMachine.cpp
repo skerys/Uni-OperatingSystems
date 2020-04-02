@@ -328,14 +328,14 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
 
         FILE* file = _fdopen(fd, "w");
 
-        fprintf(file, "%d ", memory[wordAddress/16][wordAddress%16].get_int());
+        fprintf(file, "%d\n", memory[wordAddress/16][wordAddress%16].get_int());
     }
     else
     {
         
         int number = memory[wordAddress/16][wordAddress%16].get_int();
 
-        std::cout << number << " ";
+        std::cout << number << " " << std::endl;
 
     }
 }
@@ -451,14 +451,14 @@ void VirtualMachine::loadMemory(Memory& _memory)
     memory = _memory;
 }
 
+
 void VirtualMachine::run()
 {
     ic = 0;
     while(running)
     {
 #if DEBUG_MODE
-        print_status();
-        std::cin.getc();
+        do_debug();
         execute_command();
 #else
         execute_command();
@@ -466,9 +466,26 @@ void VirtualMachine::run()
     }
 }
 
-void VirtualMachine::print_status()
+void VirtualMachine::do_debug()
 {
+    printf("Register values: RA: %X; RB: %X; IC:%X; SF:%X\n", ra.get_value(), rb.get_value(), ic.get_value(), sf.get_status());
+    Word nextCommand = memory[ic/16][ic%16];
+
+    if(nextCommand[2] <= 15){
+        nextCommand[2] = nextCommand[2] >= 10 ? 'A' + nextCommand[2] - 10 : '0' + nextCommand[2];
+    }
+    if(nextCommand[3] <= 15){
+        nextCommand[3] = nextCommand[3] >= 10 ? 'A' + nextCommand[3] - 10 : '0' + nextCommand[3];
+    }
+    printf("Next command: %c%c%c%c\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3]);
+    memory.print();
+
+    printf("\nPress any key to run the next command...");
+    std::cin.get();
+    printf("Running command %c%c%c%c\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3]);
     
+
+
 }
 
 VirtualMachine::~VirtualMachine()
