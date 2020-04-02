@@ -229,11 +229,22 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
     }
     else
     {
-        char start = std::cin.peek();
-
-        if (start == '$')
+        if (std::cin.peek() == '$')
         {
+            Word word;
+            char sym;
+            int index = 0;
 
+            // "Eat" the dollar sign
+            std::cin.get(sym);
+
+            while(std::cin.get(sym) && index < 4)
+            {
+                word[index] = sym;
+                index++;
+            }
+
+            memory[memoryAddress/16][memoryAddress%16] = word;
         }
         else
         {
@@ -259,20 +270,38 @@ void VirtualMachine::readBlock(int blockNumber, bool fromFile)
 
         if (start == '$')
         {
-            
+            Word word;
+            char sym;
+            int byteIndex = 0;
+            int wordIndex = 0;
+
+            // "Eat" the dollar sign
+            std::cin.get(sym);
+
+            while (wordIndex < 16)
+            {
+                byteIndex = 0;
+                while(std::cin.get(sym) && byteIndex < 4)
+                {
+                    word[byteIndex] = sym;
+                    byteIndex++;
+                }
+                wordIndex++;
+                memory[blockNumber][wordIndex] = word;
+                
+                if (byteIndex < 4)
+                    break;
+            }
         }
         else
         {
             int num;
             int address = 0;
 
-            while(std::cin >> num)
+            while(std::cin >> num && address < 16)
             {
                 memory[blockNumber][address] = num;
                 address++;
-
-                if(address == 15)
-                    return;
             }
         }
     }
