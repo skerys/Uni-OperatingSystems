@@ -2,7 +2,8 @@
 
 #include <cstdint>
 
-class CommandReader{
+class CommandReader
+{
     static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
     {
         return (uint16_t)byteA * 0xFF + byteB;

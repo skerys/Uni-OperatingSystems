@@ -7,7 +7,8 @@
 
 #define WORD_LENGTH 4
 
-struct Word{
+class Word
+{
 private:
     uint8_t bytes[WORD_LENGTH];
 public:

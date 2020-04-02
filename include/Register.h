@@ -10,16 +10,19 @@ class Register
 private:
     Word word;
 public:
-    void operator=(const int &i){
+    void operator=(const int &i)
+    {
         word.set_int(i);
     }
 
-    Register& operator++(){
+    Register& operator++()
+    {
         word.set_int(word.get_int() + 1);
         return *this;
     }
 
-    operator int(){
+    operator int()
+    {
         return word.get_int();
     }
 

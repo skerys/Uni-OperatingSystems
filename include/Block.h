@@ -20,7 +20,8 @@ public:
         }
     }
 
-    Word& operator[](int i){
+    Word& operator[](int i)
+    {
         return get_word(i);
     }
 

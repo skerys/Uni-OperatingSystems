@@ -64,7 +64,6 @@ private:
 public:
     VirtualMachine(Memory& _memory) : memory(_memory)
     {
-
         running = true;
     }
     void loadMemory(Memory& _memory);
