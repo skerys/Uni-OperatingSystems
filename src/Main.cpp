@@ -56,7 +56,13 @@ int main()
    Memory           memory;
    ProgramReader    programReader(memory);
 
+   std::string s = "LA30";
+   
    programReader.setMemory("aaaa.txt");
+   memory.print();
+
+   VirtualMachine vm(memory);
+   vm.run(); 
 
    //memory = programReader.getMemory();
 }
