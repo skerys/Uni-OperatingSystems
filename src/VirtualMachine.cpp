@@ -222,13 +222,18 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
         char word[WORD_LENGTH] = {0, 0, 0, 0};
         int fd = rb.get_value();
 
-        _read( fd, word, WORD_LENGTH);
+        FILE * file = _fdopen(fd, "r");
+        int a;
+        fscanf(file, "%d", &a);
 
-        memory[memoryAddress/16][memoryAddress%16].set_bytes(word[0], word[1], word[2], word[3]);
+        memory[memoryAddress/16][memoryAddress%16] = a;
+        /*_read( fd, word, WORD_LENGTH);
+
+        memory[memoryAddress/16][memoryAddress%16].set_bytes(word[0], word[1], word[2], word[3]);*/
     }
     else
     {
-        if (std::cin.peek() == '$')
+        /*if (std::cin.peek() == '$')
         {
             Word word;
             char sym;
@@ -246,13 +251,14 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
             memory[memoryAddress/16][memoryAddress%16] = word;
         }
         else
-        {
-            int num;
+        {*/
+        int num;
 
-            std::cin >> num;
+        std::cin >> num;
+        std::cin.get(); //eat new line
 
-            memory[memoryAddress/16][memoryAddress%16] = num;
-        }
+        memory[memoryAddress/16][memoryAddress%16] = num;
+        
     }
 }
 
@@ -274,44 +280,42 @@ void VirtualMachine::readBlock(int blockNumber, bool fromFile)
     }
     else
     {
-        char start = std::cin.peek();
+        // char start = std::cin.peek();
 
-        if (start == '$')
+        // if (start == '$')
+        // {
+        Word word;
+        char sym;
+        int byteIndex = 0;
+        int wordIndex = 0;
+
+        while (wordIndex < 16)
         {
-            Word word;
-            char sym;
-            int byteIndex = 0;
-            int wordIndex = 0;
-
-            // "Eat" the dollar sign
-            std::cin.get(sym);
-
-            while (wordIndex < 16)
+            byteIndex = 0;
+            while(std::cin.get(sym) && byteIndex < 4)
             {
-                byteIndex = 0;
-                while(std::cin.get(sym) && byteIndex < 4)
-                {
-                    word[byteIndex] = sym;
-                    byteIndex++;
-                }
-                wordIndex++;
-                memory[blockNumber][wordIndex] = word;
-                
-                if (byteIndex < 4)
-                    break;
+                if(sym == '\n') break;
+                word[byteIndex] = sym;
+                byteIndex++;
             }
+            memory[blockNumber][wordIndex] = word;
+            wordIndex++;
+            
+            if (byteIndex < 4)
+                break;
         }
-        else
-        {
-            int num;
-            int address = 0;
+        // }
+        // else
+        // {
+        //     int num;
+        //     int address = 0;
 
-            while(std::cin >> num && address < 16)
-            {
-                memory[blockNumber][address] = num;
-                address++;
-            }
-        }
+        //     while(std::cin >> num && address < 16)
+        //     {
+        //         memory[blockNumber][address] = num;
+        //         address++;
+        //     }
+        // }
     }
 }
 
@@ -321,24 +325,18 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
     if (toFile)
     {
         int fd = rb;
-        std::string toWrite;
 
-        for (int i = 0; i < 4; ++i)
-        {
-            uint8_t symbol = memory[wordAddress/16][wordAddress%16][i];
-            if(symbol == 0) break;
-            toWrite.push_back(symbol);
-        }
-        _write(fd, toWrite.c_str(), toWrite.length());
+        FILE* file = _fdopen(fd, "w");
+
+        fprintf(file, "%d ", memory[wordAddress/16][wordAddress%16].get_int());
     }
     else
     {
-        for (int i = 0; i < 4; ++i)
-        {
-            uint8_t symbol = memory[wordAddress/16][wordAddress%16][i];
-            if(symbol == 0) break;
-            std::cout << (char)symbol;
-        }
+        
+        int number = memory[wordAddress/16][wordAddress%16].get_int();
+
+        std::cout << number << " ";
+
     }
 }
 
