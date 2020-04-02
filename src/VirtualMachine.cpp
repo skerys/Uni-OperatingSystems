@@ -320,13 +320,27 @@ void VirtualMachine::writeBlock(int blockNumber, bool toFile)
 // Open/create file: FOxy
 void VirtualMachine::openFile(int memoryAddressOfPath)
 {
+    std::string path;
+    int pathAddress = memoryAddressOfPath;
+
+    char symbol = memory[memoryAddressOfPath%16][memoryAddressOfPath/16].get_int();
+    while(symbol != 0)
+    {
+        path.push_back(symbol);
+        pathAddress++;
+    }
+
+    FILE* file = fopen(path.c_str(), "rw");
+    //Store file descriptor in RB
+    rb = fileno(file);
 
 }
 
 // Close file: FCLS
 void VirtualMachine::closeFile()
 {
-
+    FILE* file = fdopen(rb, "rw");
+    fclose(file);
 }
 
 // Delete file: FDEL
