@@ -3,6 +3,9 @@
 #include "Block.h"
 #include "RealMachine.h"
 #include "VirtualMachine.h"
+#include <io.h>
+#include <fcntl.h>
+
 
 using namespace std;
 
@@ -26,16 +29,14 @@ int main()
     memory[0][4].set_bytes('H', 'A', 'L', 'T');*/
 
     memory[3][0].set_bytes('a', 'b', '.', 'c');
-    memory[0][0].set_bytes('F', 'D', 3, 0);
+    memory[0][0].set_bytes('F', 'O', 3, 0);
     memory[0][1].set_bytes('F','C','L','S');
+    memory[0][2].set_bytes('H', 'A', 'L', 'T');
 
     //memory.print();
 
     VirtualMachine  virtualMachine(memory);
-    //virtualMachine.loadMemory(memory);
-    //virtualMachine.run();
-    printf("%d", remove("ab.c"));
-    //memory.print();
-    perror("error");
+    virtualMachine.run();
+
     return 0;
 }

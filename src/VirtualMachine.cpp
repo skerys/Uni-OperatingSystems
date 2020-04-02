@@ -374,7 +374,7 @@ void VirtualMachine::openFile(int memoryAddressOfPath)
          symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     }
 
-    int file = _open(path.c_str(), _O_CREAT | _O_RDWR);
+    int file = _open(path.c_str(), _O_CREAT | _O_RDWR, S_IREAD | _S_IWRITE);
     //Store file descriptor in RB
     rb = file;
 
@@ -385,6 +385,7 @@ void VirtualMachine::closeFile()
 {
     //FILE* file = fdopen(rb, "rw");
     //fclose(file);
+    _close(rb);
 }
 
 // Delete file: FDxy

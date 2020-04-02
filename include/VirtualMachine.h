@@ -3,9 +3,11 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <sys\stat.h>
 
 #include "Memory.h"
 #include "Register.h"
+
 
 enum RegisterType { RA, RB };
 enum ArithmeticCommand { ADD, SUB, MUL, DIV };
