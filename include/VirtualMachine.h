@@ -7,25 +7,17 @@
 #include "Memory.h"
 #include "Register.h"
 
-enum RegisterType{
-    RA, RB
-};
-
-enum ArithmeticCommand{
-    ADD, SUB, MUL, DIV
-};
-
-enum JumpType{
-    ALWAYS, IF_EQUAL, IF_NOT_EQUAL, IF_GREATER
-};
+enum RegisterType { RA, RB };
+enum ArithmeticCommand { ADD, SUB, MUL, DIV };
+enum JumpType { ALWAYS, IF_EQUAL, IF_NOT_EQUAL, IF_GREATER };
 
 class VirtualMachine
 {
 private:
     Memory& memory;
-    Register ra, rb;
-    Register ic;
-    Flag sf;
+    Register ra, rb;            // Bendro naudojimo registrai
+    Register ic;                // Komandu skaitiklis
+    Flag sf;                    // Pozymio registras
     bool running;
     
     void execute_command();
@@ -70,7 +62,8 @@ private:
     // Stop program: HALT
     void stopProgram();
 public:
-    VirtualMachine(Memory& _memory) : memory(_memory){
+    VirtualMachine(Memory& _memory) : memory(_memory)
+    {
 
         running = true;
     }

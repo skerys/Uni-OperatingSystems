@@ -13,10 +13,13 @@ class RealMachine
 {
 private:
     //VirtualMachine virtualMachines[VIRTUAL_MACHINE_NUM];
-    Register ra, rb, rc;
-    Register ptr;
-    Register ic;
-    Flag sf, mode, pi, si, ti, oi, ca, cb, cc;
+    Register ra, rb, rc;        // Bendro naudojimo registrai
+    Register ptr;               // Puslapiu lenteles registras 
+    Register ic;                // Komandu skaitiklis
+    Flag sf;                    // Pozymio registras
+    Flag mode;                  // Procesoriaus darbo rezimo registras 
+    Flag pi, si, ti, oi;        // Pertraukimu (programinių, supervizorinių, taimerio, ivedimo/isvedimo) registrai
+    Flag ca, cb, cc;            // Kanalu busenu registrai
 public:
     RealMachine();
     ~RealMachine();
