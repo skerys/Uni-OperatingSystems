@@ -222,7 +222,7 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
         char word[WORD_LENGTH] = {0, 0, 0, 0};
         int fd = rb.get_value();
 
-        _read( fd, word, WORD_LENGTH);
+        _read(fd, word, WORD_LENGTH);
 
         memory[memoryAddress/16][memoryAddress%16].set_bytes(word[0], word[1], word[2], word[3]);
     }
