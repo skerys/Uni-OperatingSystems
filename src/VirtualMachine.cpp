@@ -1,4 +1,6 @@
 #include "VirtualMachine.h"
+#include <io.h>
+#include <fcntl.h>
 
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
 {
@@ -318,7 +320,7 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
     {
         for (int i = 0; i < 4; ++i)
         {
-            std::cout << memory[wordAddress/16][wordAddress%16].get_byte(i) << " ";
+            std::cout << memory[wordAddress/16][wordAddress%16][i] << " ";
         }
     }
 }
@@ -351,17 +353,25 @@ void VirtualMachine::openFile(int memoryAddressOfPath)
 {
     std::string path;
     int pathAddress = memoryAddressOfPath;
+    int byteIndex = 0;
 
-    char symbol = memory[memoryAddressOfPath%16][memoryAddressOfPath/16].get_int();
+    char symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     while(symbol != 0)
     {
         path.push_back(symbol);
-        pathAddress++;
+        
+        byteIndex++;
+        if(byteIndex >= 4){
+            byteIndex = 0;
+            pathAddress++;
+        }
+
+         symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     }
 
-    FILE* file = fopen(path.c_str(), "rw");
+    int file = _open(path.c_str(), _O_CREAT | _O_RDWR);
     //Store file descriptor in RB
-    rb = fileno(file);
+    rb = file;
 
 }
 
@@ -377,12 +387,20 @@ void VirtualMachine::deleteFile(int memoryAddressOfPath)
 {
     std::string path;
     int pathAddress = memoryAddressOfPath;
+    int byteIndex = 0;
 
-    char symbol = memory[memoryAddressOfPath%16][memoryAddressOfPath/16].get_int();
+    char symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     while(symbol != 0)
     {
         path.push_back(symbol);
-        pathAddress++;
+        
+        byteIndex++;
+        if(byteIndex >= 4){
+            byteIndex = 0;
+            pathAddress++;
+        }
+
+         symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     }
 
     remove(path.c_str());
