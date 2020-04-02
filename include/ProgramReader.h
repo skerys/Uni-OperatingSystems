@@ -21,16 +21,80 @@ public:
 
         if (file.is_open()) 
         {
+            char str[2] = {0};
             std::string line;
-            int lineNo = 0;
+
+            std::getline(file, line);
+            if (line != "DATA")
+            {
+                file.close();
+                throw "Must be data";
+            }
+
+            std::getline(file, line);
+            
+            while(line[0] == '[')
+            {
+                for(int i = 1; i < 5; ++i)
+                {
+                    str[0] = str[1] = 0;
+                    str[0] = line[i];
+                    line[i] = isxdigit(line[i]) ? strtol(str, NULL, 16) : line[i];
+                }
+
+                int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
+
+                std::getline(file, line);
+
+                for (int i = 0; (line.length()-i*4) > 1; ++i)
+                {
+                    int nullVal = line.length()-i*4;
+                    
+                    if (nullVal < 4)
+                    {
+                        switch(nullVal)
+                        {
+                            case 1:
+                                memory[address[2]][address[3]].set_bytes((int)line[i+0], 0, 0, 0);
+                                break;
+                            case 2:
+                                memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], 0, 0);
+                                break;
+                            case 3:
+                                memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], 0);
+                                break;
+                            default:
+                                break;
+                        } 
+                    }
+                    memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], (int)line[i+3]);
+                }
+                std::getline(file, line);
+            }
+
+            if (line != "CODE")
+            {
+                file.close();
+                throw "Must be code";
+            }
 
             while (std::getline(file, line)) 
             {
+                if (line[0] == '[')
+                {
+                    int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
+                }
+                else
+                {
+                    throw "Must be address";
+                }
+                
+                int lineNo = 0;
+
                 if (line.length() != 4)
                 {
-                    printf("LEL");
                     file.close();
-                    return;
+                    throw "Error, must be 4 bytes";
                 }
             
                 //Convert last two bytes to hexadecimal values
