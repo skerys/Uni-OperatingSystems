@@ -3,6 +3,10 @@
 #include "VirtualMachine.h"
 #include <io.h>
 #include <fcntl.h>
+#include <io.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <share.h>
 
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
 {
@@ -215,24 +219,12 @@ void VirtualMachine::readWord(int memoryAddress, bool fromFile)
 {
     if (fromFile)
     {
-        /*
-        ifstream inFile;
-        const int numofQ = 20;
-        char CorrectAnswers[numofQ];
+        char word[4] = {0, 0, 0, 0};
+        int fd = rb.get_value();
 
-        inFile.open("CorrectAnswers.txt");
-        
-        for (int i = 0; i < numofQ; x++)
-        {
-            for (char write2line; inFile.get(write2line);)
-            {
-                CorrectAnswers[x] = write2line;
-                break;
-            }
+        _read( fd, word, 4);
 
-            cout << CorrectAnswers[x];
-        }
-        */
+        memory[memoryAddress/16][memoryAddress%16].set_bytes(word[0], word[1], word[2], word[3]);
     }
     else
     {
