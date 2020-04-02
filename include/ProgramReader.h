@@ -45,10 +45,11 @@ public:
                 int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
 
                 std::getline(file, line);
+                int lineLength = line.length();
 
-                for (int i = 0; (line.length()-i*4) > 1; ++i)
+                for (int i = 0; i < lineLength; i+=4)
                 {
-                    int nullVal = line.length()-i*4;
+                    int nullVal = lineLength-i;
                     
                     if (nullVal < 4)
                     {
@@ -67,7 +68,16 @@ public:
                                 break;
                         } 
                     }
-                    memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], (int)line[i+3]);
+                    else{
+                        memory[address[2]][address[3]].set_bytes((int)line[i+0], (int)line[i+1], (int)line[i+2], (int)line[i+3]);
+                    }
+
+                    address[3]++;
+                    if(address[3] >= 16)
+                    {
+                        address[3] = 0;
+                        address[2]++;
+                    }
                 }
                 std::getline(file, line);
             }
@@ -78,18 +88,18 @@ public:
                 throw "Must be code";
             }
 
+            int lineNo = 0;
             while (std::getline(file, line)) 
             {
-                if (line[0] == '[')
+                /*if (line[0] == '[')
                 {
                     int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
                 }
                 else
                 {
                     throw "Must be address";
-                }
+                }*/
                 
-                int lineNo = 0;
 
                 if (line.length() != 4)
                 {

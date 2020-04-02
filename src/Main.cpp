@@ -7,8 +7,6 @@
 #include "VirtualMachine.h"
 #include "ProgramReader.h"
 
-#define DEBUG_MODE 1
-
 int main()
 {
     /*
