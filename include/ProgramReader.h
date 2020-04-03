@@ -89,10 +89,7 @@ public:
                 }
                 else
                 {
-                    backupLine = line.length();
-                    lineLength = backupLine.length();
-
-                    memory[address[2]][address[3]].set_int(std::stoi(backupLine));
+                    memory[address[2]][address[3]].set_int(std::stoi(line, nullptr));
                 }
                 std::getline(file, line);
             }

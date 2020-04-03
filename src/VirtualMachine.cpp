@@ -326,9 +326,10 @@ void VirtualMachine::writeWord(int wordAddress, bool toFile)
     {
         int fd = rb;
 
-        FILE* file = _fdopen(fd, "w");
+        std::string toWrite;
 
-        fprintf(file, "%d\n", memory[wordAddress/16][wordAddress%16].get_int());
+        toWrite = std::to_string(memory[wordAddress/16][wordAddress%16].get_int());
+         _write(fd, toWrite.c_str(), toWrite.length());
     }
     else
     {
