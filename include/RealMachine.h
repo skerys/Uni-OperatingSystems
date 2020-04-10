@@ -22,5 +22,6 @@ private:
     Flag ca, cb, cc;            // Kanalu busenu registrai
 public:
     RealMachine();
+    //void interrupt_test(){ return​ si + pi + oi == ​0​ ​AND​ ti > ​0​ ? ​0​ : 1; } 
     ~RealMachine();
 };
