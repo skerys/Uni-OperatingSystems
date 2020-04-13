@@ -29,11 +29,10 @@ void Pager::setup_vm_paging(VirtualMachine vm, int index)
         realBlock += VIRTUAL_MACHINE_NUM;
     }
 
-    int ptrAddress = realBlock + VIRTUAL_MACHINE_NUM;
-    memoryRef[ptrAddress] = ptrBlock;
+    memoryRef[realBlock] = ptrBlock;
 
     Word ptrWord;
-    ptrWord.set_bytes(0,0, ptrAddress / 16, ptrAddress % 16);
+    ptrWord.set_bytes(0,0, realBlock / 16, realBlock % 16);
 
     vm.set_ptr(ptrWord);
 }
