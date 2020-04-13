@@ -1,5 +1,4 @@
 #include <stdio.h>
-#define _POSIX_C_SOURCE 200809L
 #include "VirtualMachine.h"
 #include <io.h>
 #include <fcntl.h>
@@ -487,6 +486,11 @@ void VirtualMachine::do_debug()
     
 
 
+}
+
+void VirtualMachine::set_ptr(Word word)
+{
+    ptr.set_value(word.get_int());
 }
 
 VirtualMachine::~VirtualMachine()
