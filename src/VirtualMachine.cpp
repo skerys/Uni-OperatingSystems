@@ -1,11 +1,14 @@
 #include <stdio.h>
-#include "VirtualMachine.h"
 #include <io.h>
 #include <fcntl.h>
 #include <io.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <share.h>
+
+#include "VirtualMachine.h"
+
+#define _POSIX_C_SOURCE 200809L
 
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
 {

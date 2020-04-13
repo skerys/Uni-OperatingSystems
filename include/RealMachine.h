@@ -18,9 +18,10 @@ private:
     Flag mode;                  // Procesoriaus darbo rezimo registras 
     Flag pi, si, ti, oi;        // Pertraukimu (programinių, supervizorinių, taimerio, ivedimo/isvedimo) registrai
     Flag ca, cb, cc;            // Kanalu busenu registrai
+
+    bool running;
 public:
     RealMachine();
-
 
     void run()
     {
@@ -34,7 +35,11 @@ public:
         // }
         // reduce_timer();
         // write_registers(vm);
+    }
 
+    bool interrupt_test()
+    { 
+        return ( (si.get_status() + pi.get_status() + oi.get_status() == 0) && ((ti.get_status() > 0) ? 0 : 1) ); 
     }
 
     ~RealMachine();
