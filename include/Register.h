@@ -40,6 +40,11 @@ public:
     {
         return this->word.get_int();
     }
+
+    Word get_word()
+    {
+        return word;
+    }
 };
 
 class Flag
