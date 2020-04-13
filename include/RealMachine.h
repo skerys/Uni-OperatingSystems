@@ -7,8 +7,6 @@
 #include "Register.h"
 #include "VirtualMachine.h"
 
-#define VIRTUAL_MACHINE_NUM 4
-
 class RealMachine
 {
 private:
