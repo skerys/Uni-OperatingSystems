@@ -469,7 +469,7 @@ void VirtualMachine::run()
 
 void VirtualMachine::do_debug()
 {
-    printf("Register values: RA: %X; RB: %X; IC:%X; SF:%X\n", ra.get_value(), rb.get_value(), ic.get_value(), sf.get_status());
+    printf("\nRegister values: RA: %X; RB: %X; IC:%X; SF:%X\n", ra.get_value(), rb.get_value(), ic.get_value(), sf.get_status());
     Word nextCommand = memory[ic/16][ic%16];
 
     if(nextCommand[2] <= 15){
@@ -478,12 +478,12 @@ void VirtualMachine::do_debug()
     if(nextCommand[3] <= 15){
         nextCommand[3] = nextCommand[3] >= 10 ? 'A' + nextCommand[3] - 10 : '0' + nextCommand[3];
     }
-    printf("Next command: %c%c%c%c\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3]);
+    printf("\nNext command: %c%c%c%c\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3]);
     memory.print();
 
     printf("\nPress any key to run the next command...");
     std::cin.get();
-    printf("Running command %c%c%c%c\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3]);
+    printf("\nRunning command %c%c%c%c\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3]);
     
 
 
