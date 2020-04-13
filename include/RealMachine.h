@@ -22,6 +22,22 @@ private:
     Flag ca, cb, cc;            // Kanalu busenu registrai
 public:
     RealMachine();
-    //void interrupt_test(){ return​ si + pi + oi == ​0​ ​AND​ ti > ​0​ ? ​0​ : 1; } 
+
+
+    void run()
+    {
+        //with one VM
+        // load_registers(vm);
+        // execute_command();
+        // if(interrupt_test())
+        // {
+        //     change_mode();
+        //     do_interrupt();
+        // }
+        // reduce_timer();
+        // write_registers(vm);
+
+    }
+
     ~RealMachine();
 };
