@@ -1,7 +1,5 @@
 #pragma once
 
-#define BLOCK_LENGTH 16
-
 #include <memory>
 #include <vector>
 

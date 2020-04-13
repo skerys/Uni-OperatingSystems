@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "VirtualMachine.h"
 #include <io.h>
 #include <fcntl.h>
 #include <io.h>
@@ -489,6 +490,11 @@ void VirtualMachine::do_debug()
     
 
 
+}
+
+void VirtualMachine::set_ptr(Word word)
+{
+    ptr.set_value(word.get_int());
 }
 
 VirtualMachine::~VirtualMachine()
