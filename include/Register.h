@@ -57,6 +57,11 @@ public:
         this->status = 0;
     }
 
+    void operator=(const uint8_t &value)
+    {
+        status = value;
+    }
+
     uint8_t get_status()
     {
         return status;

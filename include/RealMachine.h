@@ -39,6 +39,15 @@ public:
         // write_registers(vm);
     }
 
+    void load_registers(VirtualMachine vm)
+    {
+        ra  = vm.ra;
+        rb  = vm.rb;
+        ic  = vm.ic;
+        sf  = vm.sf;
+        ptr = vm.ptr;
+    }
+
     bool interrupt_test()
     { 
         return ( (si.get_status() + pi.get_status() + oi.get_status() == 0) && ((ti.get_status() > 0) ? 0 : 1) ); 

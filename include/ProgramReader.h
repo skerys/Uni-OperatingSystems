@@ -12,10 +12,10 @@ private:
     std::ifstream file;
 public:
     ProgramReader(Memory& _memory) : memory(_memory) {}
-    void setMemory(std::string filename);
-    char setDigit(char symbol);
-    std::string setDataBlock();
-    void setCodeBlock(std::string line);
-    void readingError(const char *message);
-    Memory& getMemory();
+    void set_memory(std::string filename);
+    char set_digit(char symbol);
+    std::string set_datablock();
+    void set_codeblock(std::string line);
+    void reading_error(const char *message);
+    Memory& get_memory();
 };

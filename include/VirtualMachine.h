@@ -17,10 +17,6 @@ class VirtualMachine
 {
 private:
     Memory& memory;
-    Register ra, rb;            // Bendro naudojimo registrai
-    Register ic;                // Komandu skaitiklis
-    Register ptr;               // Puslapiavimo lenteles blokas realioje atmintyje
-    Flag sf;                    // Pozymio registras
     bool running;
     
     Word read_opcode();
@@ -68,6 +64,11 @@ private:
     void stopProgram();
     //REMOVEEEE
 public:
+    Register ra, rb;            // Bendro naudojimo registrai
+    Register ic;                // Komandu skaitiklis
+    Register ptr;               // Puslapiavimo lenteles blokas realioje atmintyje
+    Flag     sf;                // Pozymio registras
+
     VirtualMachine(Memory& _memory) : memory(_memory)
     {
         running = true;

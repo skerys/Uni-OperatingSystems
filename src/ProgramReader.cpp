@@ -2,20 +2,20 @@
 
 #include "ProgramReader.h"
 
-void ProgramReader::setMemory(std::string filename)
+void ProgramReader::set_memory(std::string filename)
 {       
     file.open(filename);
     std::string line;
 
     if (file.is_open()) 
     {
-        line = setDataBlock();
-        setCodeBlock(line);
+        line = set_datablock();
+        set_codeblock(line);
         file.close();
     }
 }
 
-char ProgramReader::setDigit(char symbol)
+char ProgramReader::set_digit(char symbol)
 {
     char strInt[2] = {0};
     strInt[0] = symbol;
@@ -23,7 +23,7 @@ char ProgramReader::setDigit(char symbol)
     return isxdigit(symbol) ? strtol(strInt, NULL, 16) : symbol;
 }
 
-std::string ProgramReader::setDataBlock()
+std::string ProgramReader::set_datablock()
 {
     std::string line;
     std::getline(file, line);
@@ -35,7 +35,7 @@ std::string ProgramReader::setDataBlock()
         while(line[0] == '[')
         {
             for(int i = 1; i < 5; ++i)
-                line[i] = setDigit(line[i]);
+                line[i] = set_digit(line[i]);
 
             int address[4] = { (int)line[1], (int)line[2], (int)line[3], (int)line[4] };
 
@@ -89,20 +89,20 @@ std::string ProgramReader::setDataBlock()
     return line;
 }
 
-void ProgramReader::setCodeBlock(std::string line)
+void ProgramReader::set_codeblock(std::string line)
 {
     int lineNo = 0;
 
     if (line != "CODE")
-        readingError("Must be code");
+        reading_error("Must be code");
 
     while (std::getline(file, line)) 
     {
         if (line.length() != 4)
-            readingError("Error, must be 4 bytes");
+            reading_error("Error, must be 4 bytes");
 
-        line[2] = setDigit(line[2]);
-        line[3] = setDigit(line[3]);
+        line[2] = set_digit(line[2]);
+        line[3] = set_digit(line[3]);
 
         memory[lineNo/16][lineNo%16].set_bytes((int)line[0], (int)line[1], (int)line[2], (int)line[3]);
 
@@ -110,14 +110,14 @@ void ProgramReader::setCodeBlock(std::string line)
     }
 }
 
-void ProgramReader::readingError(const char *message)
+void ProgramReader::reading_error(const char *message)
 {
     file.close();       
     perror("Error, must be 4 bytes");
     exit(1);
 }
 
-Memory& ProgramReader::getMemory()
+Memory& ProgramReader::get_memory()
 {
     return memory;
 }
