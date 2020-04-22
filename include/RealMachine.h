@@ -3,6 +3,13 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <stdio.h>
+#include <io.h>
+#include <fcntl.h>
+#include <io.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <share.h>
 
 #include "Register.h"
 #include "Pager.h"
@@ -22,64 +29,66 @@ private:
     
     Pager   pager;
     bool    running;
+    bool    isInOut;
 public:
     RealMachine();
 
-    void run()
-    {
-        load_registers(virtualMachines[0]);
-        execute_command();
-        if(interrupt_test())
-        {
-            change_mode();
-            do_interrupt();
-        }
-        reduce_timer();
-        write_registers(virtualMachines[0]);
-    }
+    void run();
 
-    void load_registers(VirtualMachine virtualMachines)
-    {
-        ra  = virtualMachines.ra;
-        rb  = virtualMachines.rb;
-        ic  = virtualMachines.ic;
-        sf  = virtualMachines.sf;
-        ptr = virtualMachines.ptr;
-    }
+    void load_registers(VirtualMachine virtualMachines);
 
-    void execute_command()
-    {
+    void execute_command();
 
-    }
+    void change_mode();
 
-    void change_mode()
-    {
+    void do_interrupt();
 
-    }
+    void reduce_timer();
 
-    void do_interrupt()
-    {
+    void write_registers(VirtualMachine virtualMachines);
 
-    }
+    bool interrupt_test();
 
-    void reduce_timer()
-    {
+    Word read_opcode();
 
-    }
+    // Write from memory to register: WAxy WBxy
+    void writeToMemory(RegisterType registerType, int memoryAddress);
 
-    void write_registers(VirtualMachine virtualMachines)
-    {
-        virtualMachines.ra  = ra;
-        virtualMachines.rb  = rb;
-        virtualMachines.ic  = ic;
-        virtualMachines.sf  = sf;
-        virtualMachines.ptr = ptr;
-    }
+    // Load from memory to register: LAxy LBxy
+    void loadFromMemory(RegisterType registerType, int memoryAddress);
 
-    bool interrupt_test()
-    { 
-        return ( (si.get_status() + pi.get_status() + oi.get_status() == 0) && ((ti.get_status() > 0) ? 0 : 1) ); 
-    }
+    // Do arithmethic commands: ADDX, SUBX, DIVX, MULX
+    void arithmethicCommand(ArithmeticCommand type);
+
+    // Do compare: CMPX
+    void compareRegisters();
+
+    // Jumps: JPxy, JExy, JNxy, JGxy
+    void jumpToAddress(int memoryAddress, JumpType jumpType);
+
+    // Read word from input device: INxy, FRxy
+    void readWord(int memoryAddress, bool fromFile);
+
+    // Read block form input device: BINx, BFRx
+    void readBlock(int blockNumber, bool fromFile);
+
+    // Write word to output device: OTxy, FWxy
+    void writeWord(int wordAddress, bool toFile);
+
+    // Write block to output device: BOTx, BFWx
+    void writeBlock(int blockNumber, bool toFile);
+
+    // Open/create file: FOxy
+    void openFile(int memoryAddressOfPath);
+
+    // Close file: FCLS
+    void closeFile();
+
+    // Delete file: FDEL
+    void deleteFile(int memoryAddressOfPath);
+
+    // Stop program: HALT
+    void stopProgram();
 
     ~RealMachine();
 };
