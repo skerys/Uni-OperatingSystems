@@ -17,7 +17,7 @@ class VirtualMachine
 {
 private:
     Memory& memory;
-    bool running;
+    bool    running;
     
     Word read_opcode();
     void execute_command();
