@@ -6,6 +6,7 @@
 
 #include "Register.h"
 #include "VirtualMachine.h"
+#include "Pager.h"
 
 class RealMachine
 {
@@ -18,7 +19,11 @@ private:
     Flag mode;                  // Procesoriaus darbo rezimo registras 
     Flag pi, si, ti, oi;        // Pertraukimu (programinių, supervizorinių, taimerio, ivedimo/isvedimo) registrai
     Flag ca, cb, cc;            // Kanalu busenu registrai
-    VirtualMachine  vm;
+
+    VirtualMachine vm;
+    Pager pager;
+
+    Memory memory;
 
     bool running;
 public:
