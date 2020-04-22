@@ -18,6 +18,7 @@ private:
     Flag mode;                  // Procesoriaus darbo rezimo registras 
     Flag pi, si, ti, oi;        // Pertraukimu (programinių, supervizorinių, taimerio, ivedimo/isvedimo) registrai
     Flag ca, cb, cc;            // Kanalu busenu registrai
+    VirtualMachine  vm;
 
     bool running;
 public:
@@ -25,9 +26,9 @@ public:
 
     void run()
     {
-        //with one VM
-        // load_registers(vm);
-        // execute_command();
+        // with one VM
+        load_registers(vm);
+        //execute_command();
         // if(interrupt_test())
         // {
         //     change_mode();
@@ -44,6 +45,15 @@ public:
         ic  = vm.ic;
         sf  = vm.sf;
         ptr = vm.ptr;
+    }
+
+    void write_registers(VirtualMachine vm)
+    {
+        vm.ra  = ra;
+        vm.rb  = rb;
+        vm.ic  = ic;
+        vm.sf  = sf;
+        vm.ptr = ptr;
     }
 
     bool interrupt_test()

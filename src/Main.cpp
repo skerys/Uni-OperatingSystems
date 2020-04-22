@@ -12,9 +12,9 @@ int main(int argc, char **argv)
    Memory           memory;
    ProgramReader    programReader(memory);
    
-   programReader.setMemory(argv[1]);
+   programReader.set_memory(argv[1]);
 
    VirtualMachine vm(memory);
    vm.run(); 
-
+   RealMachine realMachine;
 }
