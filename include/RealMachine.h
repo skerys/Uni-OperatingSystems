@@ -4,12 +4,15 @@
 #include <memory>
 #include <vector>
 #include <stdio.h>
+#if _WIN64
 #include <io.h>
+#elif __APPLE__
+#include <sys/uio.h>
+#include <unistd.h>
+#endif
 #include <fcntl.h>
-#include <io.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <share.h>
+
 
 #include "Register.h"
 #include "Pager.h"

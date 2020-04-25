@@ -3,7 +3,9 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#if _WIN64
 #include <sys\stat.h>
+#endif
 
 #include "Memory.h"
 #include "Register.h"

@@ -1,6 +1,4 @@
 #include <iostream>
-#include <io.h>
-#include <fcntl.h>
 
 #include "Block.h"
 #include "RealMachine.h"
