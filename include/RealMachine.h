@@ -3,15 +3,23 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <stdio.h>
+#include <io.h>
+#include <fcntl.h>
+#include <io.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <share.h>
 
 #include "Register.h"
+#include "Pager.h"
 #include "VirtualMachine.h"
 #include "Pager.h"
 
 class RealMachine
 {
 private:
-    //VirtualMachine virtualMachines[VIRTUAL_MACHINE_NUM];
+    VirtualMachine virtualMachines[VIRTUAL_MACHINE_NUM];
     Register ra, rb, rc;        // Bendro naudojimo registrai
     Register ptr;               // Puslapiu lenteles registras 
     Register ic;                // Komandu skaitiklis
@@ -20,51 +28,72 @@ private:
     Flag pi, si, ti, oi;        // Pertraukimu (programinių, supervizorinių, taimerio, ivedimo/isvedimo) registrai
     Flag ca, cb, cc;            // Kanalu busenu registrai
 
-    VirtualMachine vm;
+    VirtualMachine vm; //for testing with a single vm
     Pager pager;
 
     Memory memory;
 
-    bool running;
+    bool    running;
+    bool    isInOut;
 public:
     RealMachine();
 
-    void run()
-    {
-        // with one VM
-        load_registers(vm);
-        //execute_command();
-        // if(interrupt_test())
-        // {
-        //     change_mode();
-        //     do_interrupt();
-        // }
-        // reduce_timer();
-        // write_registers(vm);
-    }
+    void run();
 
-    void load_registers(VirtualMachine vm)
-    {
-        ra  = vm.ra;
-        rb  = vm.rb;
-        ic  = vm.ic;
-        sf  = vm.sf;
-        ptr = vm.ptr;
-    }
+    void load_registers(VirtualMachine virtualMachines);
 
-    void write_registers(VirtualMachine vm)
-    {
-        vm.ra  = ra;
-        vm.rb  = rb;
-        vm.ic  = ic;
-        vm.sf  = sf;
-        vm.ptr = ptr;
-    }
+    void execute_command();
 
-    bool interrupt_test()
-    { 
-        return ( (si.get_status() + pi.get_status() + oi.get_status() == 0) && ((ti.get_status() > 0) ? 0 : 1) ); 
-    }
+    void change_mode();
+
+    void do_interrupt();
+
+    void reduce_timer();
+
+    void write_registers(VirtualMachine virtualMachines);
+
+    bool interrupt_test();
+
+    Word read_opcode();
+
+    // Write from memory to register: WAxy WBxy
+    void writeToMemory(RegisterType registerType, int memoryAddress);
+
+    // Load from memory to register: LAxy LBxy
+    void loadFromMemory(RegisterType registerType, int memoryAddress);
+
+    // Do arithmethic commands: ADDX, SUBX, DIVX, MULX
+    void arithmethicCommand(ArithmeticCommand type);
+
+    // Do compare: CMPX
+    void compareRegisters();
+
+    // Jumps: JPxy, JExy, JNxy, JGxy
+    void jumpToAddress(int memoryAddress, JumpType jumpType);
+
+    // Read word from input device: INxy, FRxy
+    void readWord(int memoryAddress, bool fromFile);
+
+    // Read block form input device: BINx, BFRx
+    void readBlock(int blockNumber, bool fromFile);
+
+    // Write word to output device: OTxy, FWxy
+    void writeWord(int wordAddress, bool toFile);
+
+    // Write block to output device: BOTx, BFWx
+    void writeBlock(int blockNumber, bool toFile);
+
+    // Open/create file: FOxy
+    void openFile(int memoryAddressOfPath);
+
+    // Close file: FCLS
+    void closeFile();
+
+    // Delete file: FDEL
+    void deleteFile(int memoryAddressOfPath);
+
+    // Stop program: HALT
+    void stopProgram();
 
     ~RealMachine();
 };
