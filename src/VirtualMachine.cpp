@@ -2,24 +2,19 @@
 
 #define _POSIX_C_SOURCE 200809L
 
-void VirtualMachine::loadMemory(Memory& _memory)
-{
-    memory = _memory;
-}
-
 void VirtualMachine::run()
 {
     ic = 0;
     while(running)
     {
 #if DEBUG_MODE
-        do_debug();
+        //do_debug();
 #else
     
 #endif
     }
 }
-
+/*
 void VirtualMachine::do_debug()
 {
     printf("\nRegister values: RA: %X; RB: %X; IC:%X; SF:%X\n", ra.get_value(), rb.get_value(), ic.get_value(), sf.get_status());
@@ -37,7 +32,7 @@ void VirtualMachine::do_debug()
     printf("\nPress any key to run the next command...");
     std::cin.get();
     printf("\nRunning command %c%c%c%c\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3]);
-}
+}*/
 
 void VirtualMachine::set_ptr(Word word)
 {

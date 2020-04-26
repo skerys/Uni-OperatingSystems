@@ -18,9 +18,6 @@ void RealMachine::run()
     write_registers(virtualMachines[0]);
 }
 
-void RealMachine::load_registers(VirtualMachine virtualMachines)
-{}
-
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
 {
     return (uint16_t)byteA * 16 + byteB;

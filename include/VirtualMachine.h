@@ -18,7 +18,6 @@ enum JumpType { ALWAYS, IF_EQUAL, IF_NOT_EQUAL, IF_GREATER };
 class VirtualMachine
 {
 private:
-    Memory& memory;
     bool    running;
     void do_debug();
     
@@ -28,13 +27,12 @@ public:
     Register ptr;               // Puslapiavimo lenteles blokas realioje atmintyje
     Flag     sf;                // Pozymio registras
 
-    VirtualMachine(Memory& _memory) : memory(_memory)
+    VirtualMachine()
     {
         running = true;
     }
 
     //TODO: Remove this
-    void loadMemory(Memory& _memory);
     void run();    
     //-----
     void set_ptr(Word word);

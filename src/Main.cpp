@@ -12,7 +12,7 @@ int main(int argc, char **argv)
    Memory         memory;
    ProgramReader  programReader(memory);
    
-   programReader.set_memory(argv[1]);
+   //programReader.set_memory(argv[1]);
  
-   realMachine.run();
+   //realMachine.run();
 }
