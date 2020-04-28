@@ -7,7 +7,7 @@ RealMachine::RealMachine() : pager(memory)
 
 void RealMachine::run()
 {
-    load_registers(virtualMachines[0]);
+    load_registers(0);
     execute_command();
     if(interrupt_test())
     {
@@ -15,7 +15,7 @@ void RealMachine::run()
         do_interrupt();
     }
     reduce_timer();
-    write_registers(virtualMachines[0]);
+    write_registers(0);
 }
 
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
@@ -145,23 +145,23 @@ void RealMachine::reduce_timer()
     ti.set_status( (isInOut) ? 3 : 1 );
 }
 
-//void RealMachine::load_registers(int index)
-void RealMachine::load_registers(VirtualMachine virtualMachines)
+void RealMachine::load_registers(int idx)
 {
-    ra  = virtualMachines.ra;
-    rb  = virtualMachines.rb;
-    ic  = virtualMachines.ic;
-    sf  = virtualMachines.sf;
-    ptr = virtualMachines.ptr;
+    ra  = virtualMachines[idx].ra;
+    rb  = virtualMachines[idx].rb;
+    ic  = virtualMachines[idx].ic;
+    sf  = virtualMachines[idx].sf;
+    ptr = virtualMachines[idx].ptr;
 }
 
-void RealMachine::write_registers(VirtualMachine virtualMachines)
+// Pakeitimai
+void RealMachine::write_registers(int idx)
 {
-    virtualMachines.ra  = ra;
-    virtualMachines.rb  = rb;
-    virtualMachines.ic  = ic;
-    virtualMachines.sf  = sf;
-    virtualMachines.ptr = ptr;
+    virtualMachines[idx].ra  = ra;
+    virtualMachines[idx].rb  = rb;
+    virtualMachines[idx].ic  = ic;
+    virtualMachines[idx].sf  = sf;
+    virtualMachines[idx].ptr = ptr;
 }
 
 bool RealMachine::interrupt_test()

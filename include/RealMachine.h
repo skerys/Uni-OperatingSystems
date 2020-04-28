@@ -42,7 +42,7 @@ public:
 
     void run();
 
-    void load_registers(VirtualMachine virtualMachines);
+    void load_registers(int idx);
 
     void execute_command();
 
@@ -52,7 +52,7 @@ public:
 
     void reduce_timer();
 
-    void write_registers(VirtualMachine virtualMachines);
+    void write_registers(int idx);
 
     bool interrupt_test();
 

@@ -6,11 +6,11 @@
 #include "ProgramReader.h"
 
 int main(int argc, char **argv)
-{
-   RealMachine    realMachine;
-   
+{  
    Memory         memory;
    ProgramReader  programReader(memory);
+
+   RealMachine    realMachine;
    
    //programReader.set_memory(argv[1]);
  
