@@ -150,14 +150,22 @@ void RealMachine::execute_command()
             stopProgram();
             break;
         default:
-            throw "Exception which needs to be implemented; Unknown opcode\n";
-            exit(0);
+            pi = 2;
+            fprintf(stderr, "Incorrect operation code");
+            exit(1);
             break;
         }
     
     if (!jump_happened)
     {
         ++ic;
+
+        if ((ic < 0) && (ic > 255))
+        {
+            pi = 1;
+            fprintf(stderr, "Incorrect address");
+            exit(1);
+        }
     }
 }
 
@@ -214,10 +222,12 @@ void RealMachine::debug_rm()
     int realAddr = pager.get_real_addr(ic, ptr.get_word());
     Word nextCommand = memory[realAddr/16][realAddr%16];
 
-    if(nextCommand[2] <= 15){
+    if(nextCommand[2] <= 15)
+    {
         nextCommand[2] = nextCommand[2] >= 10 ? 'A' + nextCommand[2] - 10 : '0' + nextCommand[2];
     }
-    if(nextCommand[3] <= 15){
+    if(nextCommand[3] <= 15)
+    {
         nextCommand[3] = nextCommand[3] >= 10 ? 'A' + nextCommand[3] - 10 : '0' + nextCommand[3];
     }
     printf("\nNext command: %c%c%c%c; Virtual address: %X; Real address %X\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3], ic, realAddr);

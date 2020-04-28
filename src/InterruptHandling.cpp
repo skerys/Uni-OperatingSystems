@@ -106,6 +106,13 @@ void RealMachine::read_word(bool fromFile)
         fscanf(file, "%d", &a);
 
         memory[memoryAddress/16][memoryAddress%16] = a;
+
+        if(errno == EINVAL)
+        {
+            pi = 5;
+            fprintf(stderr, "Incorrect descriptor of the file");
+            exit(1);
+        }
     }
     else
     {
@@ -133,6 +140,13 @@ void RealMachine::read_block(bool fromFile)
         {
             memory[blockNumber][wordIndex].set_bytes(word[0], word[1], word[2], word[3]);
             wordIndex++;
+        }
+
+        if(errno == EINVAL)
+        {
+            pi = 5;
+            fprintf(stderr, "Incorrect descriptor of the file");
+            exit(1);
         }
     }
     else
@@ -176,6 +190,12 @@ void RealMachine::write_word(bool toFile)
 #elif __APPLE__
         write(fd, toWrite.c_str(), toWrite.length());
 #endif
+        if(errno == EINVAL)
+        {
+            pi = 5;
+            fprintf(stderr, "Incorrect descriptor of the file");
+            exit(1);
+        }
     }
     else
     {      
@@ -213,6 +233,13 @@ void RealMachine::write_block(bool toFile)
 #endif
             if(symbol == 0) break;
             address++;
+        }
+
+        if(errno == EINVAL)
+        {
+            pi = 5;
+            fprintf(stderr, "Incorrect descriptor of the file");
+            exit(1);
         }
     }
     else
@@ -258,6 +285,12 @@ void RealMachine::open_file()
     //Store file descriptor in RB
     rb = file;
 
+    if(errno == ENOENT)
+    {
+        pi = 6;
+        fprintf(stderr, "File or path not found");
+        exit(1);
+    }
 }
 
 void RealMachine::close_file()
@@ -267,6 +300,12 @@ void RealMachine::close_file()
 #elif __APPLE__
     close(rb);
 #endif
+    if(errno == EINVAL)
+    {
+        pi = 5;
+        fprintf(stderr, "Incorrect descriptor of the file");
+        exit(1);
+    }
 }
 
 void RealMachine::delete_file()
@@ -290,4 +329,11 @@ void RealMachine::delete_file()
     }
 
     remove(path.c_str());
+
+    if(errno == ENOENT)
+    {
+        pi = 6;
+        fprintf(stderr, "File or path not found");
+        exit(1);
+    }
 }
