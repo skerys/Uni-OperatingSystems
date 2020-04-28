@@ -7,18 +7,17 @@ RealMachine::RealMachine() : pager(memory)
 
 void RealMachine::run()
 {
-    if(running)
+    while(running)
     {
         debug_rm();
         execute_command();
         if(interrupt_test())
         {
             change_mode(true);
-            debug_rm();
+            //debug_rm();
             handle_interrupt();
             change_mode(false);
         }
-        debug_rm();
     }
 }
 
@@ -41,7 +40,7 @@ void RealMachine::execute_command()
     //Read opcode from address in IC
     Word opcode = read_opcode();
     uint16_t opcode_addr = combine_two_bytes(opcode[2], opcode[3]);
-    opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
+    //opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
 
     bool jump_happened = false;
     isInOut = false;
@@ -205,12 +204,12 @@ void RealMachine::write_registers(int idx)
 
 bool RealMachine::interrupt_test()
 { 
-    return ( (si.get_status() + pi.get_status() + oi.get_status() == 0) && ((ti.get_status() > 0) ? 0 : 1) ); 
+    return (si.get_status() + pi.get_status() + oi.get_status() != 0); 
 }
 
 void RealMachine::debug_rm()
 {
-    printf("\nRegister values: RA: %X; RB: %X; RC: %X; IC:%X; SF:%X; MODE: %X; PTR: %X; PI: %X; SI: %X; TI: %X; OI: %X;\n", ra, rb, rc, ic, sf, mode, ptr, pi.get_status(), si.get_status(), ti.get_status(), oi.get_status());
+    printf("\nRegister values: RA: %X; RB: %X; RC: %X; IC:%X; SF:%X; MODE: %X; PTR: %X; PI: %X; SI: %X; TI: %X; OI: %X;\n", ra.get_value(), rb.get_value(), rc.get_value(), ic.get_value(), sf.get_status(), mode.get_status(), ptr.get_value(), pi.get_status(), si.get_status(), ti.get_status(), oi.get_status());
     int realAddr = pager.get_real_addr(ic, ptr.get_word());
     Word nextCommand = memory[realAddr/16][realAddr%16];
 
@@ -220,10 +219,10 @@ void RealMachine::debug_rm()
     if(nextCommand[3] <= 15){
         nextCommand[3] = nextCommand[3] >= 10 ? 'A' + nextCommand[3] - 10 : '0' + nextCommand[3];
     }
-    printf("\nNext command: %c%c%c%c; Virtual address: %X; Real address %X\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3], ic, realAddr);
+    printf("\nNext command: %c%c%c%c; Virtual address: %X; Real address %X\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3], ic.get_value(), realAddr);
     memory.print();
-
     printf("\nPress any key to step...");
+    std::cin.get();
 }
 
 RealMachine::~RealMachine()

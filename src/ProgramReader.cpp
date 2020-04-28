@@ -132,8 +132,8 @@ int ProgramReader::set_codeblock(std::string line)
 
     while (std::getline(file, line)) 
     {
-        if (line.length() != 2)
-            reading_error("Error, must be 2 bytes");
+        if (line.length() != 4)
+            reading_error("Error, must be 4 bytes");
 
         line[2] = set_digit(line[2]);
         line[3] = set_digit(line[3]);

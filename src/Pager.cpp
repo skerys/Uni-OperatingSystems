@@ -24,7 +24,7 @@ int Pager::get_read_block(int virtualBlock, Word ptr)
     int v = ptr[3];
 
     int ptrAddr = 16*u + v;
-    int xBlockReal = 16 * memoryRef[ptrAddr][virtualBlock].get_int();
+    int xBlockReal = memoryRef[ptrAddr][virtualBlock].get_int();
 
     return xBlockReal;
 }
