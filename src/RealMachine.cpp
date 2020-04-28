@@ -12,7 +12,7 @@ void RealMachine::run()
     if(interrupt_test())
     {
         change_mode();
-        do_interrupt();
+        handle_interrupt();
     }
     reduce_timer();
     write_registers(0);
@@ -37,7 +37,7 @@ void RealMachine::execute_command()
     //Read opcode from address in IC
     Word opcode = read_opcode();
     uint16_t opcode_addr = combine_two_bytes(opcode[2], opcode[3]);
-    //opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
+    opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
 
     bool jump_happened = false;
     isInOut = false;
@@ -164,9 +164,6 @@ void RealMachine::load_program(int index, std::string filename)
 }
 
 void RealMachine::change_mode()
-{}
-
-void RealMachine::do_interrupt()
 {}
 
 void RealMachine::reduce_timer()
