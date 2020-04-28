@@ -2,7 +2,7 @@
 
 RealMachine::RealMachine() : pager(memory)
 {
-    pager.setup_vm_paging(vm, 0);
+    pager.setup_vm_paging(virtualMachines[0], 0);
 }
 
 void RealMachine::run()
@@ -145,6 +145,7 @@ void RealMachine::reduce_timer()
     ti.set_status( (isInOut) ? 3 : 1 );
 }
 
+//void RealMachine::load_registers(int index)
 void RealMachine::load_registers(VirtualMachine virtualMachines)
 {
     ra  = virtualMachines.ra;

@@ -31,7 +31,6 @@ private:
     Flag pi, si, ti, oi;        // Pertraukimu (programinių, supervizorinių, taimerio, ivedimo/isvedimo) registrai
     Flag ca, cb, cc;            // Kanalu busenu registrai
 
-    VirtualMachine vm; //for testing with a single vm
     Pager pager;
 
     Memory memory;
