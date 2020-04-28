@@ -40,7 +40,8 @@ void RealMachine::execute_command()
     //opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
 
     bool jump_happened = false;
-
+    isInOut = false;
+    
     switch (combine_two_bytes(opcode[0], opcode[1]))
     {
         case combine_two_bytes('W', 'A'): 
@@ -93,34 +94,42 @@ void RealMachine::execute_command()
         case combine_two_bytes('I', 'N'):
             si = 5;
             rc = opcode_addr;
+            isInOut = true;
             break;
         case combine_two_bytes('B', 'I'):
             si = 6;
             rc = opcode[3];
+            isInOut = true;
             break;
         case combine_two_bytes('O', 'T'):
             si = 7;
             rc = opcode_addr;
+            isInOut = true;
             break;
         case combine_two_bytes('B', 'O'):
             si = 8;
             rc = opcode[3];
+            isInOut = true;
             break;
         case combine_two_bytes('W', 'F'):
             si = 9;
             rc = opcode_addr;
+            isInOut = true;
             break;
         case combine_two_bytes('B', 'W'):
             si = 10;
             rc = opcode[3];
+            isInOut = true;
             break;
         case combine_two_bytes('R', 'F'):
             si = 11;
             rc = opcode_addr;
+            isInOut = true;
             break;
         case combine_two_bytes('B', 'R'):
             si = 12;
             rc = opcode[3];
+            isInOut = true;
             break;
         case combine_two_bytes('F', 'O'):
             si = 13;
@@ -128,7 +137,6 @@ void RealMachine::execute_command()
             break;
         case combine_two_bytes('F', 'C'):
             si = 14;
-            //rc = opcode_addr; ?????????????
             break;
         case combine_two_bytes('F', 'D'):
             si = 15;
@@ -163,7 +171,7 @@ void RealMachine::do_interrupt()
 
 void RealMachine::reduce_timer()
 {
-    ti.set_status( (isInOut) ? 3 : 1 );
+    ti = (isInOut) ? ti.get_status()-3 : ti.get_status()-1;
 }
 
 void RealMachine::load_registers(int idx)
