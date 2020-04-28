@@ -10,7 +10,8 @@ class Pager
 public:
     Pager(Memory& _memoryRef) : memoryRef(_memoryRef){}
 
-    int get_real_addr(int virtual_addr, Word ptr);
+    int get_real_addr(int virtualAddr, Word ptr);
+    int get_read_block(int virtualBlock, Word ptr);
 
     void setup_vm_paging(VirtualMachine vm, int index);
 };

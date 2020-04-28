@@ -1,10 +1,10 @@
 #include "../include/Pager.h"
 
-int Pager::get_real_addr(int virtual_addr, Word ptr)
+int Pager::get_real_addr(int virtualAddr, Word ptr)
 {
     //Virtual address is xy
-    int x = virtual_addr / 16;
-    int y = virtual_addr % 16;
+    int x = virtualAddr / 16;
+    int y = virtualAddr % 16;
 
     //PTR register is ??uv
     int u = ptr[2];
@@ -16,6 +16,17 @@ int Pager::get_real_addr(int virtual_addr, Word ptr)
     int xyReal = xBlockReal + y;
 
     return xyReal;
+}
+
+int Pager::get_read_block(int virtualBlock, Word ptr)
+{
+    int u = ptr[2];
+    int v = ptr[3];
+
+    int ptrAddr = 16*u + v;
+    int xBlockReal = 16 * memoryRef[ptrAddr][virtualBlock].get_int();
+
+    return xBlockReal;
 }
 
 void Pager::setup_vm_paging(VirtualMachine vm, int index)
