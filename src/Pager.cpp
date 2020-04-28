@@ -29,7 +29,7 @@ int Pager::get_read_block(int virtualBlock, Word ptr)
     return xBlockReal;
 }
 
-void Pager::setup_vm_paging(VirtualMachine vm, int index)
+void Pager::setup_vm_paging(VirtualMachine& vm, int index)
 {
     Block ptrBlock;
     int realBlock = index;

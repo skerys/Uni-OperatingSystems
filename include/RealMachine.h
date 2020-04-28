@@ -40,6 +40,9 @@ private:
 public:
     RealMachine();
     void load_program(int index, std::string filename);
+    void run_program(std::string filename);
+
+    void debug_rm();
 
     //Main running loop
     void run();
@@ -52,7 +55,7 @@ public:
     //Checking and handling interrupts
     bool interrupt_test();
     void handle_interrupt();
-    void change_mode();
+    void change_mode(bool newValue);
     void reduce_timer();
 
     //BASE COMMAND LOGIC:

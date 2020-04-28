@@ -7,15 +7,19 @@ RealMachine::RealMachine() : pager(memory)
 
 void RealMachine::run()
 {
-    load_registers(0);
-    execute_command();
-    if(interrupt_test())
+    if(running)
     {
-        change_mode();
-        handle_interrupt();
+        debug_rm();
+        execute_command();
+        if(interrupt_test())
+        {
+            change_mode(true);
+            debug_rm();
+            handle_interrupt();
+            change_mode(false);
+        }
+        debug_rm();
     }
-    reduce_timer();
-    write_registers(0);
 }
 
 static constexpr uint16_t combine_two_bytes(uint8_t byteA, uint8_t byteB)
@@ -155,8 +159,17 @@ void RealMachine::load_program(int index, std::string filename)
     this->ic = programReader.set_memory(filename);
 }
 
-void RealMachine::change_mode()
-{}
+void RealMachine::run_program(std::string filename)
+{
+    load_registers(0);
+    load_program(0, filename);
+    running = true;
+}
+
+void RealMachine::change_mode(bool newValue)
+{
+    mode = (int)newValue;
+}
 
 void RealMachine::reduce_timer()
 {
@@ -187,7 +200,23 @@ bool RealMachine::interrupt_test()
     return ( (si.get_status() + pi.get_status() + oi.get_status() == 0) && ((ti.get_status() > 0) ? 0 : 1) ); 
 }
 
+void RealMachine::debug_rm()
+{
+    printf("\nRegister values: RA: %X; RB: %X; RC: %X; IC:%X; SF:%X; MODE: %X; PTR: %X; PI: %X; SI: %X; TI: %X; OI: %X;\n", ra, rb, rc, ic, sf, mode, ptr, pi.get_status(), si.get_status(), ti.get_status(), oi.get_status());
+    int realAddr = pager.get_real_addr(ic, ptr.get_word());
+    Word nextCommand = memory[realAddr/16][realAddr%16];
 
+    if(nextCommand[2] <= 15){
+        nextCommand[2] = nextCommand[2] >= 10 ? 'A' + nextCommand[2] - 10 : '0' + nextCommand[2];
+    }
+    if(nextCommand[3] <= 15){
+        nextCommand[3] = nextCommand[3] >= 10 ? 'A' + nextCommand[3] - 10 : '0' + nextCommand[3];
+    }
+    printf("\nNext command: %c%c%c%c; Virtual address: %X; Real address %X\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3], ic, realAddr);
+    memory.print();
+
+    printf("\nPress any key to step...");
+}
 
 RealMachine::~RealMachine()
 {

@@ -13,5 +13,5 @@ public:
     int get_real_addr(int virtualAddr, Word ptr);
     int get_read_block(int virtualBlock, Word ptr);
 
-    void setup_vm_paging(VirtualMachine vm, int index);
+    void setup_vm_paging(VirtualMachine& vm, int index);
 };

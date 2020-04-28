@@ -6,13 +6,10 @@
 #include "ProgramReader.h"
 
 int main(int argc, char **argv)
-{  
-   Memory         memory;
-   ProgramReader  programReader(memory);
-
+{
    RealMachine    realMachine;
    
-   //programReader.set_memory(argv[1]);
- 
-   //realMachine.run();
+   realMachine.run_program("source.a");
+   
+   realMachine.run();
 }
