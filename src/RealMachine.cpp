@@ -134,6 +134,12 @@ void RealMachine::execute_command()
     }
 }
 
+void RealMachine::load_program(int index, std::string filename)
+{
+    ProgramReader programReader(memory, pager, ptr.get_word());
+    this->ic = programReader.set_memory(filename);
+}
+
 void RealMachine::change_mode()
 {}
 

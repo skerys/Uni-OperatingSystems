@@ -17,7 +17,7 @@
 #include "Register.h"
 #include "Pager.h"
 #include "VirtualMachine.h"
-#include "Pager.h"
+#include "ProgramReader.h"
 
 class RealMachine
 {
@@ -58,6 +58,8 @@ public:
     bool interrupt_test();
 
     Word read_opcode();
+
+    void load_program(int index, std::string filename);
 
     // Write from memory to register: WAxy WBxy
     void writeToMemory(RegisterType registerType, int memoryAddress);
