@@ -154,6 +154,7 @@ void RealMachine::load_registers(int idx)
     ptr = virtualMachines[idx].ptr;
 }
 
+// Pakeitimai
 void RealMachine::write_registers(int idx)
 {
     virtualMachines[idx].ra  = ra;
