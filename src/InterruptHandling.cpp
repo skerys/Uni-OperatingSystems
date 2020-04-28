@@ -52,6 +52,10 @@ void RealMachine::handle_interrupt()
         default:
             fprintf(stderr, "SI value too high! Interrupt with code %d not found", si);
     }
+
+    si = 0;
+    pi = 0;
+    oi = 0;
 }
 
 void RealMachine::write_to_memory(RegisterType registerType)
@@ -264,7 +268,7 @@ void RealMachine::open_file()
     int pathAddress = pager.get_real_addr(rc, ptr.get_word());
     int byteIndex = 0;
 
-    char symbol;// = memory[pathAddress/16][pathAddress%16][byteIndex];
+    char symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     while(symbol != 0)
     {
         path.push_back(symbol);
@@ -275,7 +279,7 @@ void RealMachine::open_file()
             pathAddress++;
         }
 
-         //symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
+         symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     }
 #if _WIN32 || _WIN64
     int file = _open(path.c_str(), _O_CREAT | _O_RDWR, S_IREAD | _S_IWRITE);
