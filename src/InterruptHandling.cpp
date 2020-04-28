@@ -111,7 +111,7 @@ void RealMachine::read_word(bool fromFile)
 
         memory[memoryAddress/16][memoryAddress%16] = a;
 
-        if(errno == EINVAL)
+        if(file == nullptr)
         {
             pi = 5;
             fprintf(stderr, "Incorrect descriptor of the file");
@@ -146,7 +146,7 @@ void RealMachine::read_block(bool fromFile)
             wordIndex++;
         }
 
-        if(errno == EINVAL)
+        if(bytesRead == -1)
         {
             pi = 5;
             fprintf(stderr, "Incorrect descriptor of the file");
@@ -190,11 +190,11 @@ void RealMachine::write_word(bool toFile)
 
         toWrite = std::to_string(memory[wordAddress/16][wordAddress%16].get_int());
 #if _WIN32 || _WIN64
-         _write(fd, toWrite.c_str(), toWrite.length());
+        int error = _write(fd, toWrite.c_str(), toWrite.length());
 #elif __APPLE__
-        write(fd, toWrite.c_str(), toWrite.length());
+        int error = write(fd, toWrite.c_str(), toWrite.length());
 #endif
-        if(errno == EINVAL)
+        if(error == -1)
         {
             pi = 5;
             fprintf(stderr, "Incorrect descriptor of the file");
@@ -231,19 +231,19 @@ void RealMachine::write_block(bool toFile)
                 toWrite.push_back(symbol);
             }
 #if _WIN32 || _WIN64
-            _write(fd, toWrite.c_str(), toWrite.length());
+            int error = _write(fd, toWrite.c_str(), toWrite.length());
 #elif __APPLE__
-             write(fd, toWrite.c_str(), toWrite.length());
+            int error = write(fd, toWrite.c_str(), toWrite.length());
 #endif
             if(symbol == 0) break;
             address++;
-        }
 
-        if(errno == EINVAL)
-        {
-            pi = 5;
-            fprintf(stderr, "Incorrect descriptor of the file");
-            exit(1);
+            if(error == -1)
+            {
+                pi = 5;
+                fprintf(stderr, "Incorrect descriptor of the file");
+                exit(1);
+            }
         }
     }
     else
@@ -289,7 +289,7 @@ void RealMachine::open_file()
     //Store file descriptor in RB
     rb = file;
 
-    if(errno == ENOENT)
+    if(file == -1)
     {
         pi = 6;
         fprintf(stderr, "File or path not found");
@@ -300,11 +300,11 @@ void RealMachine::open_file()
 void RealMachine::close_file()
 {
 #if _WIN32 || _WIN64
-    _close(rb);
+    int error = _close(rb);
 #elif __APPLE__
-    close(rb);
+    int error = close(rb);
 #endif
-    if(errno == EINVAL)
+    if(error == -1)
     {
         pi = 5;
         fprintf(stderr, "Incorrect descriptor of the file");
@@ -332,9 +332,9 @@ void RealMachine::delete_file()
         symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     }
 
-    remove(path.c_str());
+    int error = remove(path.c_str());
 
-    if(errno == ENOENT)
+    if(error == -1)
     {
         pi = 6;
         fprintf(stderr, "File or path not found");
