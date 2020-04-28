@@ -6,15 +6,18 @@ void RealMachine::writeToMemory(RegisterType registerType, int memoryAddress)
     switch(registerType)
     {
         case RegisterType::RA:
+            si = 1;
             //memory[memoryAddress/16][memoryAddress%16] = ra.get_value();
             break;
         case RegisterType::RB:
+            si = 2;
             //memory[memoryAddress/16][memoryAddress%16] = rb.get_value();
             break;
         default:
             throw "Exception which needs to be implemented; Unknown register\n";
             break;
     }
+    rc = memoryAddress;
 }
 
 // Load from memory to register: LAxy LBxy
@@ -24,14 +27,17 @@ void RealMachine::loadFromMemory(RegisterType registerType, int memoryAddress)
     {
         case RegisterType::RA:
             //ra.set_value(memory[memoryAddress/16][memoryAddress%16].get_int());
+            si = 3;
             break;
         case RegisterType::RB:
             //rb.set_value(memory[memoryAddress/16][memoryAddress%16].get_int());
+            si = 4;
             break;
         default:
             throw "Exception which needs to be implemented; Unknown register\n";
             break;
     }
+    rc = memoryAddress;
 }
 
 // Do arithmethic commands: ADDX, SUBX, DIVX, MULX
@@ -97,6 +103,9 @@ void RealMachine::jumpToAddress(int memoryAddress, JumpType jumpType)
 // Read word from input device: INxy, FRxy
 void RealMachine::readWord(int memoryAddress, bool fromFile)
 {
+    si = fromFile ? 11 : 5;
+    rc = memoryAddress;
+
     if (fromFile)
     {
         char word[WORD_LENGTH] = {0, 0, 0, 0};
@@ -149,6 +158,9 @@ void RealMachine::readWord(int memoryAddress, bool fromFile)
 // Read block form input device: BINx, BFRx
 void RealMachine::readBlock(int blockNumber, bool fromFile)
 {
+    si = fromFile ? 12 : 6;
+    rc = blockNumber;
+
     if (fromFile)
     {
         char word[WORD_LENGTH] = {0, 0, 0, 0};
@@ -206,6 +218,9 @@ void RealMachine::readBlock(int blockNumber, bool fromFile)
 // Write word to output device: OTxy, FWxy
 void RealMachine::writeWord(int wordAddress, bool toFile)
 {
+    si = toFile ? 9 : 7;
+    rc = wordAddress;
+
     if (toFile)
     {
         int fd = rb;
@@ -232,6 +247,9 @@ void RealMachine::writeWord(int wordAddress, bool toFile)
 // Write block to output device: BOTx, BFWx
 void RealMachine::writeBlock(int blockNumber, bool toFile)
 {
+    si = toFile ? 10 : 8;
+    rc = blockNumber;
+
     int address = 0;
     uint8_t symbol = 0;
 
@@ -277,6 +295,9 @@ void RealMachine::writeBlock(int blockNumber, bool toFile)
 // Open/create file: FOxy
 void RealMachine::openFile(int memoryAddressOfPath)
 {
+    si = 13;
+    rc = memoryAddressOfPath;
+
     std::string path;
     int pathAddress = memoryAddressOfPath;
     int byteIndex = 0;
@@ -307,6 +328,7 @@ void RealMachine::openFile(int memoryAddressOfPath)
 // Close file: FCLS
 void RealMachine::closeFile()
 {
+    si = 14;
     //FILE* file = fdopen(rb, "rw");
     //fclose(file);
 #if _WIN32 || _WIN64
@@ -319,6 +341,9 @@ void RealMachine::closeFile()
 // Delete file: FDxy
 void RealMachine::deleteFile(int memoryAddressOfPath)
 {
+    si = 15;
+    rc = memoryAddressOfPath;
+
     std::string path;
     int pathAddress = memoryAddressOfPath;
     int byteIndex = 0;
