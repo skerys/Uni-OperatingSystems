@@ -44,16 +44,20 @@ void RealMachine::execute_command()
     switch (combine_two_bytes(opcode[0], opcode[1]))
     {
         case combine_two_bytes('W', 'A'): 
-            writeToMemory(RegisterType::RA, opcode_addr);
+            si = 1;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('W', 'B'):
-            writeToMemory(RegisterType::RB, opcode_addr);
+            si = 2;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('L', 'A'):
-            loadFromMemory(RegisterType::RA, opcode_addr);
+            si = 3;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('L', 'B'):
-            loadFromMemory(RegisterType::RB, opcode_addr);
+            si = 4;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('A', 'D'):
             arithmethicCommand(ArithmeticCommand::ADD);
@@ -87,37 +91,48 @@ void RealMachine::execute_command()
             jump_happened = true;
             break;
         case combine_two_bytes('I', 'N'):
-            readWord(opcode_addr, false);
+            si = 5;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('B', 'I'):
-            readBlock(opcode[3], false);
+            si = 6;
+            rc = opcode[3];
             break;
         case combine_two_bytes('O', 'T'):
-            writeWord(opcode_addr, false);
+            si = 7;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('B', 'O'):
-            writeBlock(opcode[3], false);
-            break;
-        case combine_two_bytes('F', 'O'):
-            openFile(opcode_addr);
-            break;
-        case combine_two_bytes('F', 'C'):
-            closeFile();
-            break;
-        case combine_two_bytes('F', 'D'):
-            deleteFile(opcode_addr);
+            si = 8;
+            rc = opcode[3];
             break;
         case combine_two_bytes('W', 'F'):
-            writeWord(opcode_addr, true);
+            si = 9;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('B', 'W'):
-            writeBlock(opcode[3], true);
+            si = 10;
+            rc = opcode[3];
             break;
         case combine_two_bytes('R', 'F'):
-            readWord(opcode_addr, true);
+            si = 11;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('B', 'R'):
-            readBlock(opcode[3], true);
+            si = 12;
+            rc = opcode[3];
+            break;
+        case combine_two_bytes('F', 'O'):
+            si = 13;
+            rc = opcode_addr;
+            break;
+        case combine_two_bytes('F', 'C'):
+            si = 14;
+            //rc = opcode_addr; ?????????????
+            break;
+        case combine_two_bytes('F', 'D'):
+            si = 15;
+            rc = opcode_addr;
             break;
         case combine_two_bytes('H', 'A'):
             stopProgram();
