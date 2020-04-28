@@ -3,7 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#if _WIN64
+#if _WIN32 || _WIN64
 #include <sys\stat.h>
 #endif
 

@@ -7,8 +7,6 @@
 
 #include "GlobalDefines.h"
 
-#define WORD_LENGTH 4
-
 class Word
 {
 private:

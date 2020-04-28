@@ -102,7 +102,7 @@ void RealMachine::readWord(int memoryAddress, bool fromFile)
         char word[WORD_LENGTH] = {0, 0, 0, 0};
         int fd = rb.get_value();
 
-#if _WIN64
+#if _WIN32 || _WIN64
         FILE * file = _fdopen(fd, "r");
 #elif __APPLE__
         FILE * file = fdopen(fd, "r");
@@ -213,7 +213,7 @@ void RealMachine::writeWord(int wordAddress, bool toFile)
         std::string toWrite;
 
        // toWrite = std::to_string(memory[wordAddress/16][wordAddress%16].get_int());
-#if _WIN64
+#if _WIN32 || _WIN64
          _write(fd, toWrite.c_str(), toWrite.length());
 #elif __APPLE__
         write(fd, toWrite.c_str(), toWrite.length());
@@ -249,7 +249,7 @@ void RealMachine::writeBlock(int blockNumber, bool toFile)
                 if(symbol == 0) break;
                 toWrite.push_back(symbol);
             }
-#if _WIN64
+#if _WIN32 || _WIN64
             _write(fd, toWrite.c_str(), toWrite.length());
 #elif __APPLE__
              write(fd, toWrite.c_str(), toWrite.length());
@@ -294,7 +294,7 @@ void RealMachine::openFile(int memoryAddressOfPath)
 
          //symbol = memory[pathAddress/16][pathAddress%16][byteIndex];
     }
-#if _WIN64
+#if _WIN32 || _WIN64
     int file = _open(path.c_str(), _O_CREAT | _O_RDWR, S_IREAD | _S_IWRITE);
 #elif __APPLE__
     int file = open(path.c_str(), O_CREAT | O_RDWR, S_IREAD | S_IWRITE);
@@ -309,7 +309,7 @@ void RealMachine::closeFile()
 {
     //FILE* file = fdopen(rb, "rw");
     //fclose(file);
-#if _WIN64
+#if _WIN32 || _WIN64
     _close(rb);
 #elif __APPLE__
     close(rb);

@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 #include <stdio.h>
-#if _WIN64
+#if _WIN32 || _WIN64
 #include <io.h>
 #elif __APPLE__
 #include <sys/uio.h>
