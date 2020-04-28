@@ -4,16 +4,20 @@
 #include <memory>
 #include <vector>
 #include <stdio.h>
+#if _WIN64
 #include <io.h>
+#elif __APPLE__
+#include <sys/uio.h>
+#include <unistd.h>
+#endif
 #include <fcntl.h>
-#include <io.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <share.h>
+
 
 #include "Register.h"
 #include "Pager.h"
 #include "VirtualMachine.h"
+#include "Pager.h"
 
 class RealMachine
 {
@@ -26,8 +30,12 @@ private:
     Flag mode;                  // Procesoriaus darbo rezimo registras 
     Flag pi, si, ti, oi;        // Pertraukimu (programinių, supervizorinių, taimerio, ivedimo/isvedimo) registrai
     Flag ca, cb, cc;            // Kanalu busenu registrai
-    
-    Pager   pager;
+
+    VirtualMachine vm; //for testing with a single vm
+    Pager pager;
+
+    Memory memory;
+
     bool    running;
     bool    isInOut;
 public:

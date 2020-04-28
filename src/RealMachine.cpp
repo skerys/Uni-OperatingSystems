@@ -1,7 +1,9 @@
 #include "RealMachine.h"
 
-RealMachine::RealMachine()
-{}
+RealMachine::RealMachine() : pager(memory)
+{
+    pager.setup_vm_paging(vm, 0);
+}
 
 void RealMachine::run()
 {
@@ -25,6 +27,8 @@ Word RealMachine::read_opcode() //word_opcode ic is virtualaus i realu adderss =
 // ToDo: kad nepamirstume get_real_addr
 {
     Word opcode;// = memory[ic.get_value()/16][ic.get_value()%16];
+    int real_ic = pager.get_real_addr(ic, ptr.get_word());
+    opcode = memory[real_ic / 16][real_ic % 16];
     return opcode;
 }
 
@@ -33,6 +37,7 @@ void RealMachine::execute_command()
     //Read opcode from address in IC
     Word opcode = read_opcode();
     uint16_t opcode_addr = combine_two_bytes(opcode[2], opcode[3]);
+    opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
 
     bool jump_happened = false;
 

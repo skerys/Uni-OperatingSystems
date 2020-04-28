@@ -1,6 +1,4 @@
 #include <iostream>
-#include <io.h>
-#include <fcntl.h>
 
 #include "Block.h"
 #include "RealMachine.h"
@@ -14,7 +12,7 @@ int main(int argc, char **argv)
 
    RealMachine    realMachine;
    
-   programReader.set_memory(argv[1]);
+   //programReader.set_memory(argv[1]);
  
-   realMachine.run();
+   //realMachine.run();
 }
