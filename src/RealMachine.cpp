@@ -2,7 +2,7 @@
 
 RealMachine::RealMachine() : pager(memory)
 {
-    pager.setup_vm_paging(vm, 0);
+    pager.setup_vm_paging(virtualMachines[0], 0);
 }
 
 void RealMachine::run()
@@ -37,7 +37,7 @@ void RealMachine::execute_command()
     //Read opcode from address in IC
     Word opcode = read_opcode();
     uint16_t opcode_addr = combine_two_bytes(opcode[2], opcode[3]);
-    opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
+    //opcode_addr = pager.get_real_addr(opcode_addr, ptr.get_word());
 
     bool jump_happened = false;
 
