@@ -1,8 +1,17 @@
 #include "RealMachine.h"
 
+static bool skipToNextCmd = false;
+
 RealMachine::RealMachine() : pager(memory)
 {
     pager.setup_vm_paging(virtualMachines[0], 0);
+    ti = 10;
+    activeVm[0] = true;
+    for(int i = 1; i <= 3; ++i)
+    {
+        activeVm[i] = false;
+    }
+    currentActiveVm = 0;
 }
 
 void RealMachine::run()
@@ -13,11 +22,21 @@ void RealMachine::run()
         execute_command();
         if(interrupt_test())
         {
+            if(!skipToNextCmd) debug_rm();
             change_mode(true);
-            //debug_rm();
+            if(!skipToNextCmd) debug_rm();
             handle_interrupt();
             change_mode(false);
         }
+        reduce_timer();
+        if(ti.get_status() <= 0)
+        {
+            if(!skipToNextCmd) debug_rm();
+            change_mode(true);
+            if(!skipToNextCmd) debug_rm();
+            do_timer_interrupt();
+        }
+        
     }
 }
 
@@ -217,7 +236,52 @@ bool RealMachine::interrupt_test()
 
 void RealMachine::debug_rm()
 {
-    printf("\nRegister values: RA: %X; RB: %X; RC: %X; IC:%X; SF:%X; MODE: %X; PTR: %X; PI: %X; SI: %X; TI: %X; OI: %X;\n", ra.get_value(), rb.get_value(), rc.get_value(), ic.get_value(), sf.get_status(), mode.get_status(), ptr.get_value(), pi.get_status(), si.get_status(), ti.get_status(), oi.get_status());
+    skipToNextCmd = false;
+    bool looping = true;
+    while(looping)
+    {
+        printf("\n");
+        print_registers();
+        print_next_command_info();
+        printf("\nPrint (R)M Memory; Print (V)M Memory;\n");
+        printf("(S)mall step; Skip To next (C)ommand\n");
+        printf("Select next action: ");
+        char action = std::cin.get();
+        fflush(stdin);
+        switch (action)
+        {
+            case 's':
+            case 'S':
+                looping = false;
+                break;
+            case 'r':
+            case 'R':
+                memory.print();
+                break;
+            case 'v':
+            case 'V':
+                print_vm_memory();
+                break;
+            case 'c':
+            case 'C':
+                looping = false;
+                skipToNextCmd = true;
+                break;
+            default:
+                looping = true;
+        }
+    }
+}
+
+void RealMachine::print_registers()
+{
+    printf("\e[1mRA\e[0m: %4X     \e[1mSF\e[0m: %4X     \e[1mPI\e[0m: %4X     \e[1mTI\e[0m: %4X\n", ra.get_value(), sf.get_status(), pi.get_status(), ti.get_status());
+    printf("\e[1mRB\e[0m: %4X     \e[1mMODE\e[0m: %2X     \e[1mSI\e[0m: %4X\n", rb.get_value(), mode.get_status(), si.get_status());
+    printf("\e[1mRC\e[0m: %4X     \e[1mPTR\e[0m: %3X     \e[1mOI\e[0m: %4X     \e[1mIC\e[0m: %4X\n", rc.get_value(), ptr.get_value(), oi.get_status(), ic.get_value());
+}
+
+void RealMachine::print_next_command_info()
+{
     int realAddr = pager.get_real_addr(ic, ptr.get_word());
     Word nextCommand = memory[realAddr/16][realAddr%16];
 
@@ -229,11 +293,23 @@ void RealMachine::debug_rm()
     {
         nextCommand[3] = nextCommand[3] >= 10 ? 'A' + nextCommand[3] - 10 : '0' + nextCommand[3];
     }
-    printf("\nNext command: %c%c%c%c; Virtual address: %X; Real address %X\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3], ic.get_value(), realAddr);
-    memory.print();
-    printf("\nPress any key to step...");
-    std::cin.get();
+    printf("\nNext command: %c%c%c%c; Virtual address(IC): %X; Real address %X\n", nextCommand[0], nextCommand[1], nextCommand[2], nextCommand[3], ic.get_value(), realAddr);
 }
+
+void RealMachine::print_vm_memory()
+{
+    for(int i = 0; i < 16; ++i)
+    {
+        printf("\e[1m%2X: \e[0m", i);
+        int realBlock = pager.get_read_block(i, ptr.get_word());
+        for(int j = 0; j < BLOCK_LENGTH; ++j)
+        {
+            memory[realBlock][j].print();
+        }
+        printf("\n");
+    }
+}
+
 
 RealMachine::~RealMachine()
 {

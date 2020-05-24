@@ -9,7 +9,8 @@ int main(int argc, char **argv)
 {
    RealMachine    realMachine;
    
-   realMachine.run_program("source.a");
+   realMachine.run_program(argv[1]);
+   //realMachine.run_program("source.a");
    
    realMachine.run();
 }

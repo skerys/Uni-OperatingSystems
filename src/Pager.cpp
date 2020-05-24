@@ -36,7 +36,7 @@ void Pager::setup_vm_paging(VirtualMachine& vm, int index)
 
     for(int i = 0; i < BLOCK_LENGTH; ++i)
     {
-        ptrBlock[i] = realBlock;
+        ptrBlock[15 - i] = realBlock;
         realBlock += VIRTUAL_MACHINE_NUM;
     }
 

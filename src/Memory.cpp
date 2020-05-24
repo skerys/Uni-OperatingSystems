@@ -15,7 +15,7 @@ void Memory::print()
 {
     for(int i = 0; i < MEMORY_BLOCK_COUNT; ++i)
     {
-        printf("%2X: ", i);
+        printf("\e[1m%2X: \e[0m", i);
         for(int j = 0; j < BLOCK_LENGTH; ++j)
         {
             blocks[i][j].print();

@@ -23,6 +23,10 @@ class RealMachine
 {
 private:
     VirtualMachine virtualMachines[VIRTUAL_MACHINE_NUM];
+
+    bool activeVm[VIRTUAL_MACHINE_NUM];
+    int currentActiveVm;
+
     Register ra, rb, rc;        // Bendro naudojimo registrai
     Register ptr;               // Puslapiu lenteles registras 
     Register ic;                // Komandu skaitiklis
@@ -43,6 +47,9 @@ public:
     void run_program(std::string filename);
 
     void debug_rm();
+    void print_registers();
+    void print_vm_memory();
+    void print_next_command_info();
 
     //Main running loop
     void run();
@@ -89,6 +96,8 @@ public:
     void close_file();
     // Delete file: FDEL
     void delete_file();
+
+    void do_timer_interrupt();
 
     ~RealMachine();
 };

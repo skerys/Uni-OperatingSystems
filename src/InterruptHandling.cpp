@@ -341,3 +341,18 @@ void RealMachine::delete_file()
         exit(1);
     }
 }
+
+void RealMachine::do_timer_interrupt()
+{
+    write_registers(currentActiveVm);
+    int newVm = currentActiveVm + 1;
+    while(activeVm[newVm] != true)
+    {
+        if(++newVm >= VIRTUAL_MACHINE_NUM){
+            newVm = 0;
+        }
+    }
+    load_registers(newVm);
+    currentActiveVm = newVm;
+    ti = 10;
+}
