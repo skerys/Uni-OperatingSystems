@@ -1,22 +1,22 @@
-#include "Process.h"
+#include "../include/Process.h"
 
 void Process::start()
 {
-    if(this->state == State::ReadyStopped){
-		this->state = State::Ready;
+    if (state == State::ReadyStopped){
+		state = State::Ready;
 	}
-	else if(this->state == State::BlockedStopped){
-		this->state = State::Blocked;
+	else if (state == State::BlockedStopped){
+	    state = State::Blocked;
 	}
 }
 
 void Process::stop()
 {
-    if(this->state == State::Ready){
-		this->state = State::ReadyStopped;
+    if (state == State::Ready){
+		state = State::ReadyStopped;
 	}
-	else if(this->state == State::Blocked){
-		this->state = State::BlockedStopped;
+	else if (state == State::Blocked){
+		state = State::BlockedStopped;
 	}
 }
 
