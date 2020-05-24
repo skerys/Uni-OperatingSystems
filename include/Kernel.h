@@ -7,8 +7,9 @@
 
 class Kernel
 {
-    std::vector<Process> allProcesses;
-    std::vector<Resource> allResources;
+public:
+    std::vector<std::shared_ptr<Process>> allProcesses;
+    std::vector<std::shared_ptr<Resource>> allResources;
 
     std::vector<std::shared_ptr<Process>> readyProcesses;
     std::vector<std::shared_ptr<Process>> runningProcesses;
