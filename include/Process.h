@@ -16,15 +16,15 @@ protected:
     int priority;
     int guid;
     std::shared_ptr<Process> parent;
-    std::vector<std::shared_ptr<Process>> children;
+    ProcessList children;
 public:
-    std::vector<std::shared_ptr<Resource>> createdResources;
-
+    ResourceList createdResources;
+    //TODO: visu primityvu pabaigoje kvieciamas procesu planuotojas
     //TODO: Sukuriant jei norima perduoti kazkokius elementus
     Process(Process& _parent, State _startState, int _priority, Kernel& _kernel) : state(_startState), priority(_priority)
     {
         parent = std::make_shared<Process>(std::move(_parent));
-        parent->children.push_back(shared_from_this());
+        parent->children.processes.push_back(shared_from_this());
         _kernel.allProcesses.push_back(shared_from_this());
         //TODO: suskaiciuoti guid
     }
@@ -32,19 +32,19 @@ public:
     void destroy_process()
     {
         //Destroy all created resources
-        for(auto&& res : createdResources)
+        for(auto&& res : createdResources.resources)
         {
             //TODO: add resource destruction command
             //res.destroy_resource();
         }
         //Destroy all child processes
-        for(auto&& child : children)
+        for(auto&& child : children.processes)
         {
             child->destroy_process();
         }
         //Remove this from parent's children list
-        auto position = std::find(parent->children.begin(), parent->children.end(), shared_from_this());
-        parent->children.erase(position);
+        auto position = std::find(parent->children.processes.begin(), parent->children.processes.end(), shared_from_this());
+        parent->children.processes.erase(position);
         //Remove this from kernel process list
         //If needed remove this from ready resource list
     }
