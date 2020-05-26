@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 #include "Process.h"
 #include "Collections.h"
@@ -39,7 +40,7 @@ public:
         // Resursas pridedamas prie bendro resursų sąrašo
         kernel->allResources.push_back(shared_from_this());
         // Resursas pridedamas prie tėvo sukurtų resursų sąrašo
-        creator->createdResources.push_back(shared_from_this());
+        creator->createdResources.resources.push_back(shared_from_this());
     // TODO: Sukuriamas resurso elementų sąrašas ???
         // Sukuriamas laukiančių procesų sąrašas (eil.28)
     }
@@ -65,17 +66,9 @@ public:
     void delete_resource()
     {
     // KINDA_DONE_BUT_NOT_REALLY: Delete this from createdResources
-        for(auto&& resource : creator->createdResources)
-        {
-            if (resource == shared_from_this())
-            {
-                creator->createdResources.erase(resource);
-            }
-        }
-/*
-        auto resource = std::find(creator->createdResources.begin(), creator->createdResources.end(), shared_from_this());
-        creator->createdResources.erase(resource);
-*/
+        auto position = std::find(creator->createdResources.resources.begin(), creator->createdResources.resources.end(), shared_from_this());
+        creator->createdResources.resources.erase(position);
+
         // Naikinamas jo elementų sąrašas, 
         resourceElements.clear();
 
@@ -86,6 +79,8 @@ public:
         }
 
     // TODO: išmetamas iš bendro resursų sąrašo,
+        position = std::find(kernel->allResources.begin(), kernel->allResources.end(), shared_from_this());
+        kernel->allResources.erase(position);
         // Panasisi kaip trinama ies createdResources, tik sikart is allResources
     }
 };
