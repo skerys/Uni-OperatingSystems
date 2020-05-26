@@ -16,9 +16,9 @@ protected:
     int guid;
     std::shared_ptr<Process> parent;
     std::vector<std::shared_ptr<Process>> children;
+public:
     std::vector<std::shared_ptr<Resource>> createdResources;
 
-public:
     //TODO: Sukuriant jei norima perduoti kazkokius elementus
     Process(Process& _parent, State _startState, int _priority, Kernel& _kernel) : state(_startState), priority(_priority)
     {
