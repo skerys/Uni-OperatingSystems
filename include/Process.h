@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 #include "Collections.h"
 #include "Kernel.h"
@@ -42,6 +43,8 @@ public:
             child->destroy_process();
         }
         //Remove this from parent's children list
+        auto position = std::find(parent->children.begin(), parent->children.end(), shared_from_this());
+        parent->children.erase(position);
         //Remove this from kernel process list
         //If needed remove this from ready resource list
     }
