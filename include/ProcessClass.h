@@ -4,8 +4,8 @@
 #include <vector>
 #include <algorithm>
 
-#include "Collections.h"
-#include "Kernel.h"
+#include <Collections.h>
+#include <Kernel.h>
 
 enum State { Blocked, BlockedStopped, Ready, ReadyStopped, Running };
 
@@ -77,4 +77,7 @@ public:
     void start();
     void stop();
     State get_state();
+    void set_state(State newState);
+
+    int get_priority();
 };

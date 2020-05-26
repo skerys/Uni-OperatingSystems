@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 
-#include "Kernel.h"
-#include "Process.h"
-#include "Resource.h"
+class Process;
+class Kernel;
+class Resource;
 
 class ProcessList{
 public:

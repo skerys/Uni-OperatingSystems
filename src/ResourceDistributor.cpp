@@ -2,7 +2,7 @@
 
 ResourceDistributor::ResourceDistributor()
 {
-    this->resources.insert(std::make_pair(ResourceType::MOS_end,                        std::make_shared<Resource>()));
+    /*this->resources.insert(std::make_pair(ResourceType::MOS_end,                        std::make_shared<Resource>()));
     this->resources.insert(std::make_pair(ResourceType::Read_command,                   std::make_shared<Resource>()));
     this->resources.insert(std::make_pair(ResourceType::Execute_command,                std::make_shared<Resource>()));
     this->resources.insert(std::make_pair(ResourceType::Execute_program,                std::make_shared<Resource>()));
@@ -22,7 +22,7 @@ ResourceDistributor::ResourceDistributor()
     this->resources.insert(std::make_pair(ResourceType::Channel2,                       std::make_shared<Resource>()));
     this->resources.insert(std::make_pair(ResourceType::Interpret_command,              std::make_shared<Resource>()));
     this->resources.insert(std::make_pair(ResourceType::Start_swap,                     std::make_shared<Resource>()));
-    this->resources.insert(std::make_pair(ResourceType::Swap_done,                      std::make_shared<Resource>()));
+    this->resources.insert(std::make_pair(ResourceType::Swap_done,                      std::make_shared<Resource>()));*/
 }
 
 void ResourceDistributor::registerProcessForResource()

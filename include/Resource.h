@@ -4,8 +4,9 @@
 #include <vector>
 #include <algorithm>
 
-#include "Process.h"
+#include "ProcessClass.h"
 #include "Collections.h"
+#include "Kernel.h"
 
 enum ResourceType { MOSEnd,
                     ProgramFileInMemory, 
@@ -20,6 +21,11 @@ enum ResourceType { MOSEnd,
                     ReadDataRequest,
                     ReadDataDone,
                     Null };
+
+class ResourceElement : public std::enable_shared_from_this<ResourceElement>
+{
+
+};
 
 class Resource : public std::enable_shared_from_this<Resource>
 {
@@ -86,7 +92,3 @@ public:
 };
 
 
-class ResourceElement : public std::enable_shared_from_this<ResourceElement>
-{
-
-};

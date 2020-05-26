@@ -2,8 +2,10 @@
 
 #include <vector>
 
-#include "Collections.h"
 #include "RealMachine.h"
+
+class Process;
+class Resource;
 
 class Kernel
 {
