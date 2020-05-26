@@ -8,9 +8,10 @@
 class ResourceDistributor
 {
 private:
-    std::map<ResourceType, std::shared_ptr<Resource>>   resources;
+    std::map<ResourceType, std::shared_ptr<Resource>> resources;
 public:
     ResourceDistributor();
     void registerProcessForResource();
+    void request_resource(ResourceType type);
     void releaseResource();
 };

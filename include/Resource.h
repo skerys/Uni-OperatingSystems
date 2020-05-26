@@ -54,7 +54,7 @@ public:
         // resourceDistributor duoda visiems pizdy
     }
 
-    void release_resource(ResourceElement &resourceElement)
+    void release_resource(ResourceElement& resourceElement)
     {
     // Resurso elementas, primityvui perduotas kaip funkcijos parametras, yra pridedamas prie resurso elementų sąrašo
         resourceElements.push_back(resourceElement.shared_from_this());
@@ -89,7 +89,6 @@ public:
         // Panasisi kaip trinama ies createdResources, tik sikart is allResources
     }
 };
-
 
 class ResourceElement : public std::enable_shared_from_this<ResourceElement>
 {
