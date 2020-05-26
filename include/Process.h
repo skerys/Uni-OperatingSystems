@@ -76,5 +76,5 @@ public:
 
     void start();
     void stop();
-    State getState();
+    State get_state();
 };
