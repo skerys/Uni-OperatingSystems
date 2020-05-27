@@ -16,6 +16,8 @@ protected:
     int priority;
     int guid;
     std::shared_ptr<Process> parent;
+    std::shared_ptr<Kernel> kernel;
+
     ProcessList children;
 public:
     ResourceList createdResources;
@@ -24,8 +26,9 @@ public:
     Process(Process& _parent, State _startState, int _priority, Kernel& _kernel) : state(_startState), priority(_priority)
     {
         parent = std::make_shared<Process>(std::move(_parent));
+        kernel = std::make_shared<Kernel>(std::move(_kernel));
         parent->children.processes.push_back(shared_from_this());
-        _kernel.allProcesses.push_back(shared_from_this());
+        kernel->allProcesses.push_back(shared_from_this());
         //TODO: suskaiciuoti guid
     }
 
@@ -51,9 +54,17 @@ public:
 
     void stop_process()
     {
-        if(state == State::Running || state == State::Ready)
+        if(state == State::Running)
         {
             state = State::ReadyStopped;
+        }
+        else if(state == State::Ready)
+        {
+            state = State::ReadyStopped;
+
+            //remove the stopped process from ready processes list
+            auto position = std::find(kernel->readyProcesses.begin(), kernel->readyProcesses.end(), shared_from_this());
+            kernel->readyProcesses.erase(position);
         }
         else
         {
@@ -66,12 +77,13 @@ public:
         if(state == State::ReadyStopped)
         {
             state = State::Ready;
+            
+            kernel->readyProcesses.push_back(shared_from_this());
         }
         else
         {
             state = State::Blocked;
         }
-        
     }
 
     void start();

@@ -15,10 +15,6 @@ class ProcessPlanner
 {
     std::shared_ptr<Kernel> kernel;
 
-    void check_state_changes()
-    {
-    }
-
     void change_running_process()
     {
         std::shared_ptr<Process> current = kernel->runningProcess;
@@ -28,7 +24,6 @@ class ProcessPlanner
         {
             kernel->blockedProcesses.push_back(current);
         }
-
         //This process is the only one
         if(kernel->readyProcesses.size() == 0)
         {
@@ -43,8 +38,7 @@ class ProcessPlanner
                 //special case, nothing can run
                 fprintf(stderr, "No process can be set to Running, I am confused\n");
                 exit(1);
-            }
-            
+            }   
         }
         //There are more ready processes
         else
@@ -68,7 +62,12 @@ class ProcessPlanner
                 //nothing happens this still runs
             }
         }
+    }
 
+public:
+    void execute()
+    {
+        change_running_process();
     }
 
 };
