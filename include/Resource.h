@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 #include <algorithm>
 
 #include "ProcessClass.h"
@@ -30,43 +31,58 @@ class ResourceElement : public std::enable_shared_from_this<ResourceElement>
 class Resource : public std::enable_shared_from_this<Resource>
 {
 private:
-    int guid;                           // Globalus unikalus identifikatorius
-    std::shared_ptr<Process> creator;
-
-    ProcessList waitingProcesses;
-    std::shared_ptr<Kernel> kernel;
-
-    std::vector<std::shared_ptr<ResourceElement>> resourceElements;
+    ResourceType type;                                  // Resuro tipas
+    std::shared_ptr<Kernel> kernel;                             // Nuoroda i branduoli
+    std::shared_ptr<Process> creator;                           // Nuoroda i kureja
+    std::shared_ptr<ResourceDistributor> distributor;
+    int guid;                                                   // Globalus unikalus identifikatorius
+    ProcessList waitingProcesses;                               // Resurso laukianciu procesu sarasas
+    std::map<std::string, ResourceElement> elements;    // Resurso elementu sarasas
 public:
-    Resource(Process& creatingProcess, Kernel& _kernel) //std::string resourceOuterName);
+    Resource(Kernel& _kernel, Process& creatingProcess, ResourceDistributor& resourceDistributor)
     {
-        creator = std::make_shared<Process>(std::move(creatingProcess));
-        kernel  = std::make_shared<Kernel>(std::move(_kernel));
+        kernel      = std::make_shared<Kernel>(std::move(_kernel));
+        creator     = std::make_shared<Process>(std::move(creatingProcess));
+        distributor = std::make_shared<ResourceDistributor>(std::move(resourceDistributor));
 
         // Resursas pridedamas prie bendro resursų sąrašo
         kernel->allResources.push_back(shared_from_this());
         // Resursas pridedamas prie tėvo sukurtų resursų sąrašo
         creator->createdResources.resources.push_back(shared_from_this());
-    // TODO: Sukuriamas resurso elementų sąrašas ???
-        // Sukuriamas laukiančių procesų sąrašas (eil.28)
+        // Sukuriamas laukiančių procesų sąrašas - waitingProcesses
+    }
+
+    Resource(Kernel& _kernel, Process& creatingProcess, ResourceDistributor& resourceDistributor, std::map<std::string, ResourceElement> resourceElements)
+    {
+        kernel      = std::make_shared<Kernel>(std::move(_kernel));
+        creator     = std::make_shared<Process>(std::move(creatingProcess));
+        distributor = std::make_shared<ResourceDistributor>(std::move(resourceDistributor));
+        // TODO: Sukuriamas resurso elementų sąrašas ???
+        elements    = resourceElements;
+
+        // Resursas pridedamas prie bendro resursų sąrašo
+        kernel->allResources.push_back(shared_from_this());
+        // Resursas pridedamas prie tėvo sukurtų resursų sąrašo
+        creator->createdResources.resources.push_back(shared_from_this());
+        // Sukuriamas laukiančių procesų sąrašas - waitingProcesses
     }
 
     void request_resource(Process& callingProcess)
     {
-    // Procesas, iškvietęs šį primityvą, yra užblokuojamas
-        callingProcess.stop_process();
-    // Procesas įtraukiamas į resurso laukiančių procesų sąrašą
+        // Procesas, iškvietęs šį primityvą, yra užblokuojamas
+        //callingProcess.
+        // Procesas įtraukiamas į resurso laukiančių procesų sąrašą
         waitingProcesses.processes.push_back(callingProcess.shared_from_this());
     // TODO: Kvieciamas resurso paskirstytojas
-        // resourceDistributor duoda visiems pizdy
+        // distributor.execute() or smth
     }
 
-    void release_resource(ResourceElement &resourceElement)
+    void release_resource(ResourceElement& resourceElement)
     {
-    // Resurso elementas, primityvui perduotas kaip funkcijos parametras, yra pridedamas prie resurso elementų sąrašo
-        resourceElements.push_back(resourceElement.shared_from_this());
+        // Resurso elementas, primityvui perduotas kaip funkcijos parametras, yra pridedamas prie resurso elementų sąrašo
+        elements.insert( {"yadayadayada", resourceElement} );
     // TODO: Šio primityvo pabaigoje yra kviečiamas resursų paskirstytojas
-        // resourceDistributor duoda visiems pizdy
+        // distributor.execute() or smth
     }
 
     void delete_resource()
@@ -76,7 +92,7 @@ public:
         creator->createdResources.resources.erase(position);
 
         // Naikinamas jo elementų sąrašas, 
-        resourceElements.clear();
+        elements.clear();
 
         // Atblokuojami procesai, laukiantys šio resurso
         for(auto&& process : waitingProcesses.processes)
@@ -91,4 +107,27 @@ public:
     }
 };
 
+class ResourceElement
+{
+private:
+    int         int_value;
+    std::string str_value;
+public:
+    void set_int_value(int _value)
+    {
+        int_value = _value;
+    }
+    void set_str_value(std::string _value)
+    {
+        str_value = _value;
+    }
 
+    int get_int_value()
+    {
+        return int_value;
+    }
+    std::string get_str_value()
+    {
+        return str_value;
+    }
+};
