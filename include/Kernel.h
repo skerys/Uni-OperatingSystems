@@ -4,7 +4,7 @@
 #include <map>
 
 #include "RealMachine.h"
-#include "ProcessClass.h"
+#include "Resource.h"
 
 class Process;
 class Resource;
