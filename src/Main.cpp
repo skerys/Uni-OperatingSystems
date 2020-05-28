@@ -8,8 +8,9 @@
 
 int main(int argc, char **argv)
 {  
-   Kernel         kernel;
    RealMachine    realMachine;
+   Kernel         kernel(realMachine);
+
    //realMachine.run_program(argv[1]);
    //realMachine.run_program("source.a");
    
@@ -19,7 +20,7 @@ int main(int argc, char **argv)
       // kuria res
    // ProcPlanu
    // ResDistr
-   kernel.run_real_machine(realMachine);
+   kernel.run_real_machine();
 
    realMachine.run();
 }
