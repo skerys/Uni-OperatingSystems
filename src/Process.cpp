@@ -1,4 +1,4 @@
-#include "../include/Process.h"
+#include "../include/ProcessClass.h"
 
 void Process::start()
 {
@@ -27,4 +27,14 @@ void Process::stop()
 State Process::get_state()
 {
     return this->state;
+}
+
+void Process::set_state(State newState)
+{
+	state = newState;
+}
+
+int Process::get_priority()
+{
+	return priority;
 }
