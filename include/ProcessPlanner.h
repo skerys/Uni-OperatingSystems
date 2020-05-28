@@ -47,7 +47,13 @@ class ProcessPlanner
             auto highestPrio = kernel->readyProcesses.front();
 
             //highest priority in readylist is higher than current priority
-            if(highestPrio->get_priority() > current->get_priority())
+            if(current->get_state() != State::Running)
+            {
+                highestPrio->set_state(State::Running);
+                kernel->runningProcess = highestPrio;
+                kernel->readyProcesses.erase(kernel->readyProcesses.begin());
+            }
+            else if(highestPrio->get_priority() > current->get_priority())
             {
                 current->set_state(State::Ready);
                 kernel->readyProcesses.push_back(current);

@@ -40,20 +40,21 @@ private:
     std::map<std::string, ResourceElement> elements;    // Resurso elementu sarasas
     
 public:
-    Resource(Kernel& _kernel, Process& creatingProcess, ResourceDistributor& resourceDistributor)
+    Resource(ResourceType _type, Kernel& _kernel, Process& creatingProcess, ResourceDistributor& resourceDistributor)
     {
         kernel      = std::make_shared<Kernel>(std::move(_kernel));
         creator     = std::make_shared<Process>(std::move(creatingProcess));
         distributor = std::make_shared<ResourceDistributor>(std::move(resourceDistributor));
 
+        type = _type;
         // Resursas pridedamas prie bendro resursų sąrašo
-        kernel->allResources.push_back(shared_from_this());
+        kernel->allResources.insert({type, shared_from_this()});
         // Resursas pridedamas prie tėvo sukurtų resursų sąrašo
         creator->createdResources.resources.push_back(shared_from_this());
         // Sukuriamas laukiančių procesų sąrašas - waitingProcesses
     }
 
-    Resource(Kernel& _kernel, Process& creatingProcess, ResourceDistributor& resourceDistributor, std::map<std::string, ResourceElement> resourceElements)
+    Resource(ResourceType _type, Kernel& _kernel, Process& creatingProcess, ResourceDistributor& resourceDistributor, std::map<std::string, ResourceElement> resourceElements)
     {
         kernel      = std::make_shared<Kernel>(std::move(_kernel));
         creator     = std::make_shared<Process>(std::move(creatingProcess));
@@ -61,8 +62,9 @@ public:
         // TODO: Sukuriamas resurso elementų sąrašas ???
         elements    = resourceElements;
 
+        type = _type;
         // Resursas pridedamas prie bendro resursų sąrašo
-        kernel->allResources.push_back(shared_from_this());
+        kernel->allResources.insert({type, shared_from_this()});
         // Resursas pridedamas prie tėvo sukurtų resursų sąrašo
         creator->createdResources.resources.push_back(shared_from_this());
         // Sukuriamas laukiančių procesų sąrašas - waitingProcesses
@@ -72,9 +74,18 @@ public:
     {
         callingProcess.set_state(State::Blocked);
         // Procesas įtraukiamas į resurso laukiančių procesų sąrašą
+<<<<<<< HEAD
         waitingProcesses.processes.push_back(callingProcess.shared_from_this());
         // Resurso paskirstytojas
         kernel->resourceDistributor.execute();
+=======
+        waitingProcesses.processes.push_back(std::make_shared<Process>(std::move(callingProcess)));
+        callingProcess.set_state(State::Blocked);
+
+        
+    // TODO: Kvieciamas resurso paskirstytojas
+        // distributor.execute() or smth
+>>>>>>> 17a98470c0ed6064cac4fc07c76eaf3b3ed068e2
     }
 
     void release_resource(ResourceElement& resourceElement)

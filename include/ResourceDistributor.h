@@ -2,7 +2,7 @@
 
 #include <map>
 #include <memory>
-#include <queue> 
+#include <queue>
 
 #include "Resource.h"
 
