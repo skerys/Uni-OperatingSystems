@@ -18,12 +18,12 @@ ResourceDistributor::ResourceDistributor()
     this->resources.insert(std::make_pair(ResourceType::Null,                   std::make_shared<Resource>()));
 }
 
-void ResourceDistributor::registerProcessForResource()
+void ResourceDistributor::register_process_for_resource()
 {
 
 }
 
-void ResourceDistributor::releaseResource()
+void ResourceDistributor::release_resource()
 {
 
 }

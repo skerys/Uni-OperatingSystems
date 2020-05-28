@@ -4,6 +4,7 @@
 #include <map>
 
 #include "RealMachine.h"
+#include "ProcessClass.h"
 
 class Process;
 class Resource;
@@ -20,4 +21,17 @@ public:
     std::shared_ptr<Process> runningProcess;
 
     std::shared_ptr<RealMachine> realMachine;
+
+    Kernel(RealMachine& _realMachine)
+    {        
+        realMachine = std::make_shared<RealMachine>(std::move(_realMachine));
+
+        StartStop   startStop;
+        startStop.execute();
+    }
+
+    void run_real_machine()
+    {
+        realMachine->run_program("source.a");
+    }
 };

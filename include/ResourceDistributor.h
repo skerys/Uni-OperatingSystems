@@ -10,11 +10,10 @@ class ResourceDistributor
 {
 private:
     std::map<ResourceType, std::shared_ptr<Resource>> resources;
-
-    std::map<ResourceType, std::queue<std::shared_ptr<Process>>> waitingList;
+    std::map<ResourceType, std::queue<Process>> waitingProcesses;
 public:
     ResourceDistributor();
-    void registerProcessForResource();
+    void register_process_for_resource();
     void request_resource(ResourceType type);
-    void releaseResource();
+    void release_resource();
 };

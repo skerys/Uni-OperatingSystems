@@ -32,12 +32,13 @@ class Resource : public std::enable_shared_from_this<Resource>
 {
 private:
     ResourceType type;                                  // Resuro tipas
-    std::shared_ptr<Kernel> kernel;                             // Nuoroda i branduoli
+    std::shared_ptr<Kernel>  kernel;                            // Nuoroda i branduoli
     std::shared_ptr<Process> creator;                           // Nuoroda i kureja
     std::shared_ptr<ResourceDistributor> distributor;
     int guid;                                                   // Globalus unikalus identifikatorius
     ProcessList waitingProcesses;                               // Resurso laukianciu procesu sarasas
     std::map<std::string, ResourceElement> elements;    // Resurso elementu sarasas
+    
 public:
     Resource(ResourceType _type, Kernel& _kernel, Process& creatingProcess, ResourceDistributor& resourceDistributor)
     {
