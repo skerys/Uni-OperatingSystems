@@ -31,7 +31,7 @@ public:
 
     void destroy_process()
     {
-        //Destroy all created resources
+        // Destroy all created resources
         for(auto&& res : createdResources.resources)
         {
             //TODO: add resource destruction command

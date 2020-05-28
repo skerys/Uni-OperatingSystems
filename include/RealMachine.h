@@ -13,7 +13,6 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-
 #include "Register.h"
 #include "Pager.h"
 #include "VirtualMachine.h"
