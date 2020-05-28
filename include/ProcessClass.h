@@ -18,42 +18,43 @@ class Process : public std::enable_shared_from_this<Process>
 protected:
     State state;
     int priority;
-    int guid;
     std::shared_ptr<Process> parent;
     std::shared_ptr<Kernel>  kernel;
 
     ProcessList children;
 public:
     ResourceList createdResources;
-    // TODO: visu primityvu pabaigoje kvieciamas procesu planuotojas
-    // TODO: Sukuriant jei norima perduoti kazkokius elementus
+
+    // Perduodama nuoroda į tėvą; pradinė būsena; prioritetas
     Process(Process& _parent, State _startState, int _priority, Kernel& _kernel) : state(_startState), priority(_priority)
     {
         parent = std::make_shared<Process>(std::move(_parent));
         kernel = std::make_shared<Kernel>(std::move(_kernel));
+        // Registruojamas tėvo-sūnų sąraše
         parent->children.processes.push_back(shared_from_this());
+        // Registruojamas bendrame procesų sąraše
         kernel->allProcesses.push_back(shared_from_this());
-        // TODO: suskaiciuoti guid
+        // Visu primityvu pabaigoje kvieciamas procesu planuotojas
+        kernel->processPlanner.execute();
     }
 
     void destroy_process()
     {
-        // Destroy all created resources
+        // Sukurtų resursų naikinimas
         for (auto&& resource : createdResources.resources)
         {
-            //TODO: add resource destruction command
             resource->delete_resource();
         }
-        //Destroy all child processes
+        // Vaikų naikinimas
         for (auto&& child : children.processes)
         {
             child->destroy_process();
         }
-        //Remove this from parent's children list
+        // Išmetamas iš tėvo sukurtų procesų sąrašo. 
         auto position = std::find(parent->children.processes.begin(), parent->children.processes.end(), shared_from_this());
         parent->children.processes.erase(position);
-        //Remove this from kernel process list
-        //If needed remove this from ready resource list
+        // Visu primityvu pabaigoje kvieciamas procesu planuotojas
+        kernel->processPlanner.execute();
     }
 
     void stop_process()
@@ -74,6 +75,8 @@ public:
         {
             state = State::BlockedStopped;
         }
+        // Visu primityvu pabaigoje kvieciamas procesu planuotojas
+        kernel->processPlanner.execute();
     }
 
     void activate_process()
@@ -88,6 +91,8 @@ public:
         {
             state = State::Blocked;
         }
+        // Visu primityvu pabaigoje kvieciamas procesu planuotojas
+        kernel->processPlanner.execute();
     }
 
     void start();

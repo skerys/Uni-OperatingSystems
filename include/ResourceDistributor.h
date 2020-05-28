@@ -16,4 +16,6 @@ public:
     void register_process_for_resource();
     void request_resource(ResourceType type);
     void release_resource();
+
+    void execute();
 };

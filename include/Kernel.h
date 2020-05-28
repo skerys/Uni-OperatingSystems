@@ -4,6 +4,7 @@
 
 #include "RealMachine.h"
 #include "ProcessClass.h"
+#include "ProcessPlanner.h"
 
 class Process;
 class Resource;
@@ -20,6 +21,9 @@ public:
     std::shared_ptr<Process> runningProcess;
 
     std::shared_ptr<RealMachine> realMachine;
+
+    ProcessPlanner      processPlanner;
+    ResourceDistributor resourceDistributor;
 
     Kernel(RealMachine& _realMachine)
     {        
