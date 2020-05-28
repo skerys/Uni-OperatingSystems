@@ -22,6 +22,9 @@ public:
 
     std::shared_ptr<RealMachine> realMachine;
 
+    ProcessPlanner      processPlanner;
+    ResourceDistributor resourceDistributor;
+
     Kernel(RealMachine& _realMachine)
     {        
         realMachine = std::make_shared<RealMachine>(std::move(_realMachine));

@@ -72,32 +72,36 @@ public:
 
     void request_resource(Process& callingProcess)
     {
-        // Procesas, iškvietęs šį primityvą, yra užblokuojamas
-        //callingProcess.
+        callingProcess.set_state(State::Blocked);
         // Procesas įtraukiamas į resurso laukiančių procesų sąrašą
+<<<<<<< HEAD
+        waitingProcesses.processes.push_back(callingProcess.shared_from_this());
+        // Resurso paskirstytojas
+        kernel->resourceDistributor.execute();
+=======
         waitingProcesses.processes.push_back(std::make_shared<Process>(std::move(callingProcess)));
         callingProcess.set_state(State::Blocked);
 
         
     // TODO: Kvieciamas resurso paskirstytojas
         // distributor.execute() or smth
+>>>>>>> 17a98470c0ed6064cac4fc07c76eaf3b3ed068e2
     }
 
     void release_resource(ResourceElement& resourceElement)
     {
         // Resurso elementas, primityvui perduotas kaip funkcijos parametras, yra pridedamas prie resurso elementų sąrašo
-        elements.insert( {"yadayadayada", resourceElement} );
-    // TODO: Šio primityvo pabaigoje yra kviečiamas resursų paskirstytojas
-        // distributor.execute() or smth
+        elements.insert( {"resource element", resourceElement} );
+        // Resurso paskirstytojas
+            kernel->resourceDistributor.execute();
     }
 
     void delete_resource()
     {
-    // KINDA_DONE_BUT_NOT_REALLY: Delete this from createdResources
         auto position = std::find(creator->createdResources.resources.begin(), creator->createdResources.resources.end(), shared_from_this());
         creator->createdResources.resources.erase(position);
 
-        // Naikinamas jo elementų sąrašas, 
+        // Naikinamas jo elementų sąrašas 
         elements.clear();
 
         // Atblokuojami procesai, laukiantys šio resurso
@@ -106,10 +110,9 @@ public:
             process->activate_process();
         }
 
-    // TODO: išmetamas iš bendro resursų sąrašo,
+        // Išmetamas iš bendro resursų sąrašo,
         position = std::find(kernel->allResources.begin(), kernel->allResources.end(), shared_from_this());
         kernel->allResources.erase(position);
-        // Panasisi kaip trinama ies createdResources, tik sikart is allResources
     }
 };
 
